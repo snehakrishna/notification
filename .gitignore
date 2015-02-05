@@ -1,0 +1,62 @@
+#Don't need these things...
+
+*~
+*.a
+*.core
+*.moc
+*.o
+*.obj
+*.orig
+*.rej
+*.so
+*_pch.h.cpp
+*_resource.rc
+*.qm
+.#*
+*.*#
+core
+.qmake.cache
+tags
+.DS_Store
+*.debug
+Makefile*
+*.prl
+*.app
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# qtcreator generated files
+*.pro.user
+
+# xemacs temp files
+*.flc
+
+# vim temp files
+.*.swp
+
+# Visual Studios generated files
+*.ib_prb_index
+*.idb
+*.ik
+*.pdb
+*.sln
+*.suo
+*.vcproj
+*vcproj.*.*.user
+*.ncb
+
+# MinGW generated files
+*.Debug
+*.Release
+
+#Directories to ignore
+debug
+release
+Debug/
+Release/
+
+#binaries
+*.dll
+*.exe
+PROJECT
