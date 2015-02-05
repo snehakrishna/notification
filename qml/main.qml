@@ -1,8 +1,8 @@
 import QtQuick 2.0
 
 Rectangle {
-    width: 500
-    height: 500
+    width: width
+    height: height
     color: "white"
 
     Column {
