@@ -10,7 +10,6 @@ SOURCES += \
     device_model.cpp
 
 OTHER_FILES += \
-    qml/main.qml \
     android-sources/src/org/qtproject/example/notification/NotificationClient.java \
     android-sources/AndroidManifest.xml
 
@@ -22,3 +21,7 @@ HEADERS += \
     internetconnection.h \
     internet_thread.h \
     device_model.h
+
+DISTFILES += \
+    content/DevicesModel.qml \
+    main.qml
