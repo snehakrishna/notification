@@ -53,7 +53,7 @@ Item {
 
         Image {
             id: arrow
-            source: "resources/icon-refresh.png"
+            source: "../images/icon-refresh.png"
             transformOrigin: Item.Center
             Behavior on rotation { NumberAnimation { duration: 200 } }
         }
@@ -62,7 +62,7 @@ Item {
             id: label
             anchors.verticalCenter: arrow.verticalCenter
             text: "Pull to refresh...    " //change to text from function
-            font.pixelSize: parent.parent.width / 20
+            font.pointSize: 20
             color: "#999999"
         }
     }

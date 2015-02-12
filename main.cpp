@@ -30,6 +30,8 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+//#include "../shared/shared.h"
+//DECLARATIVE_EXAMPLE_MAIN(notification/main)
 
 #include <QtGui>
 #include <QtQuick>
@@ -38,9 +40,9 @@
 #include <QObject>
 #include <QtCore>
 
-#include "notificationclient.h"
-#include "internetconnection.h"
-#include "internet_thread.h"
+//#include "notificationclient.h"
+//#include "internetconnection.h"
+//#include "internet_thread.h"
 
 #define DEBUG
 
@@ -54,35 +56,33 @@ int main(int argc, char **argv)
     QQuickView view;
     QTextStream output(stdout);
 
-    NotificationClient *notificationClient = new NotificationClient(&view);
-    view.engine()->rootContext()->setContextProperty(QLatin1String("notificationClient"),
-                                                     notificationClient);
+//    NotificationClient *notificationClient = new NotificationClient(&view);
+//    view.engine()->rootContext()->setContextProperty(QLatin1String("notificationClient"),
+//                                                     notificationClient);
+
     view.engine()->rootContext()->setContextProperty(QLatin1String("height"),
                                                      height);
     view.engine()->rootContext()->setContextProperty(QLatin1String("width"),
                                                      width);
     view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+    view.show();
 
-//    internet_thread t;
-//    t.start();
+    return app.exec();
 
-//    QObject::connect(&t, SIGNAL(connected()), &view, SLOT(setSource(QUrl(QStringLiteral("qrc:/qml/main.qml")))));
-//    QObject::connect(&t, SIGNAL(connected()), &view, SLOT(setSource(QUrl(QStringLiteral("qrc:/qml/no_internet.qml")))));
+//    if(isConnectedToNetwork()){
+//        //notificationClient.notification = "You are connected to the internet. You will recieve new information.";
+//        view.setResizeMode(QQuickView::SizeRootObjectToView);
+//        view.setSource(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+//        view.show();
 
-//    return app.exec();
-    if(isConnectedToNetwork()){
-        //notificationClient.notification = "You are connected to the internet. You will recieve new information.";
-        view.setResizeMode(QQuickView::SizeRootObjectToView);
-        view.setSource(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-        view.show();
-
-        return app.exec();
-    }
-    else{
-        view.setResizeMode(QQuickView::SizeRootObjectToView);
-        view.setSource(QUrl(QStringLiteral("qrc:/qml/no_internet.qml")));
-        view.show();
-        return app.exec();
-    }
+//        return app.exec();
+//    }
+//    else{
+//        view.setResizeMode(QQuickView::SizeRootObjectToView);
+//        view.setSource(QUrl(QStringLiteral("qrc:/qml/no_internet.qml")));
+//        view.show();
+//        return app.exec();
+//    }
 
 }

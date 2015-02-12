@@ -1,27 +1,41 @@
-QT += quick androidextras widgets
+TEMPLATE = app
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
+QT += quick qml
+SOURCES += main.cpp
+RESOURCES += main.qrc
 
-SOURCES += \
-    main.cpp \
-    notificationclient.cpp \
-    internetconnection.cpp \
-    internet_thread.cpp \
-    device_model.cpp
+OTHER_FILES = main.qml \
+              content/*.qml \
+              content/*.js \
+              content/resources/*
 
-OTHER_FILES += \
-    android-sources/src/org/qtproject/example/notification/NotificationClient.java \
-    android-sources/AndroidManifest.xml
+target.path = $$[QT_INSTALL_EXAMPLES]/androidextras/notification
+INSTALLS += target
 
-RESOURCES += \
-    main.qrc
+#QT += quick androidextras widgets
 
-HEADERS += \
-    notificationclient.h \
-    internetconnection.h \
-    internet_thread.h \
-    device_model.h
+#ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
 
-DISTFILES += \
-    content/DevicesModel.qml \
-    main.qml
+#SOURCES += \
+#    main.cpp \
+#    notificationclient.cpp \
+#    internetconnection.cpp \
+#    internet_thread.cpp \
+#    device_model.cpp
+
+#OTHER_FILES += \
+#    android-sources/src/org/qtproject/example/notification/NotificationClient.java \
+#    android-sources/AndroidManifest.xml
+
+#RESOURCES += \
+#    main.qrc
+
+#HEADERS += \
+#    notificationclient.h \
+#    internetconnection.h \
+#    internet_thread.h \
+#    device_model.h
+
+#DISTFILES += \
+#    content/DevicesModel.qml \
+#    main.qml

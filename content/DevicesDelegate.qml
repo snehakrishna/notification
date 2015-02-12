@@ -81,9 +81,9 @@ Item {
 
             Text {
                 id: device
-                text: model.sensor
-                anchors.centerIn: parent
-                anchors.bottom: parent.horizontalCenter
+                text: model.sensor_id
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.verticalCenter
                 x: 10; y: 9
                 font.pointSize: 18
                 font.bold: true
@@ -91,10 +91,10 @@ Item {
             }
             Text {
                 id: status
-                text: model.power
+                text: model.state
                 font.pointSize: 14
                 anchors {
-                    centerIn: parent
+                    horizontalCenter: parent.horizontalCenter
                     top: device.bottom
                 }
             }
@@ -106,22 +106,22 @@ Item {
             color: "white"
 
             Text {
-                id: device
-                text: model.sensor
-                anchors.centerIn: parent
-                anchors.bottom: parent.horizontalCenter
+                id: device2
+                text: model.sensor_id
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.verticalCenter
                 x: 10; y: 9
                 font.pointSize: 18
                 font.bold: true
                 color: "black"
             }
             Text {
-                id: status
-                text: model.power
+                id: status2
+                text: model.state
                 font.pointSize: 14
                 anchors {
-                    centerIn: parent
-                    top: device.bottom
+                    horizontalCenter: parent.horizontalCenter
+                    top: device2.bottom
                 }
             }
         }

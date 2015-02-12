@@ -9,11 +9,11 @@ Rectangle {
 
     property int inAnimDur: 250
     property int counter: 0
-    property alias isLoading: tweetsModel.isLoading
+    property alias isLoading: devicesModel.isLoading
     property var idx
     property var ids
 
-    Component.onCompleted: ids = new Array()
+    Component.onCompleted: { ids = new Array(); devicesModel.reload()}
 
     function idInModel(id)
     {
@@ -46,14 +46,8 @@ Rectangle {
             main.counter--;
             var id = devicesModel.model.get(idx[main.counter]).id
             var item = devicesModel.model.get(main.counter)
-            mainListView.add( { "statusText": Helper.insertLinks(item.text, item.entities),
-                                "twitterName": item.user.screen_name,
-                                "device" : item.user.name,
-                                "userImage": item.user.profile_image_url,
-                                "source": item.source,
-                                "id": id,
-                                 "uri": Helper.insertLinks(item.user.url, item.user.entities),
-                                "published": item.created_at } );
+            mainListView.add( { "sensor_id": item.sensor_id,
+                                "state": item.state});
             ids.push(id)
         }
     }
@@ -63,7 +57,7 @@ Rectangle {
         anchors.fill: parent
         delegate: DevicesDelegate { }
         model: ListModel { id: finalModel }
-        cellWidth: parent.width / 3
+        cellWidth: parent.width / 2
         cellHeight: mainListView.cellWidth
 
         add: Transition {
