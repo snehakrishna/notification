@@ -9,6 +9,7 @@ Rectangle {
 
     property int inAnimDur: 250
     property int counter: 0
+    property int counter_temp: 0
     property alias isLoading: devicesModel.isLoading
     property var idx
     property var ids
@@ -35,6 +36,7 @@ Rectangle {
             }
             console.debug(idx.length + " new device")
             main.counter = idx.length
+            main.counter_temp = idx.length
         }
     }
 
@@ -65,7 +67,9 @@ Rectangle {
             PropertyAction { property: "appear"; value: 250 }
         }
 
-        onDragEnded: if (header.refresh) { devicesModel.reload() }
+        onDragEnded: if (header.refresh) {
+                         clear()
+                         devicesModel.reload() }
 
         ListHeader {
             id: header
@@ -73,6 +77,16 @@ Rectangle {
         }
 
 //        footer: ListFooter { }
+
+        function mainlistview_clear() {
+            console.debug("clear")
+            main.counter_temp--;
+            var id = devicesModel.model.get(idx[main.counter]).id
+            var item = devicesModel.model.get(main.counter)
+            mainListView.add( { "sensor_id": item.sensor_id,
+                                "state": item.state});
+            ids.push(id)
+        }
 
         function clear() {
             ids = new Array()
