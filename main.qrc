@@ -1,16 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/happy.png</file>
-        <file>images/sad.png</file>
         <file>content/DevicesModel.qml</file>
         <file>main.qml</file>
         <file>content/ListHeader.qml</file>
         <file>content/DevicesDelegate.qml</file>
         <file>content/FlipBar.qml</file>
-        <file>content/ListFooter.qml</file>
-        <file>images/generic_device.png</file>
-        <file>images/icon-loading.png</file>
-        <file>images/icon-refresh.png</file>
         <file>content/genericRoom.qml</file>
+        <file>content/MainHeader.qml</file>
+        <file>content/Menu.qml</file>
+        <file>images/refresh/ic_action_refresh.png</file>
+        <file>images/drawer/ic_drawer.png</file>
     </qresource>
 </RCC>

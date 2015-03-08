@@ -53,7 +53,7 @@ Item {
 
         Image {
             id: arrow
-            source: "../images/icon-refresh.png"
+            source: "../images/refresh/ic_action_refresh.png"
             transformOrigin: Item.Center
             Behavior on rotation { NumberAnimation { duration: 200 } }
         }

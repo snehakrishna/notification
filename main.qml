@@ -7,6 +7,9 @@ Rectangle {
     height: height
     color: "white"
 
+    property int devicewidth: width
+    property int deviceheight: height
+
     property int inAnimDur: 250
     property int counter: 0
     property int counter_temp: 0
@@ -81,7 +84,10 @@ Rectangle {
             y: -mainListView.contentY - height
         }
 
-//        footer: ListFooter { }
+        MainHeader{
+            id: mainHeader
+            anchors.top: header.bottom
+        }
 
         function mainlistview_clear() {
             console.debug("clear")
@@ -102,7 +108,6 @@ Rectangle {
             model.insert(0, obj)
         }
 
-//        signal autoSearch(string type, string str) // To communicate with Footer instance
     }
 }
 
