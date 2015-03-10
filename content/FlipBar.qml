@@ -76,6 +76,7 @@ Item {
     }
 
     function flipUp(start) {
+        console.log("in flipup")
         effect.visible = true;
         effect.sourceA = effect.source1
         effect.sourceB = effect.source2
