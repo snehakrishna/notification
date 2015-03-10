@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    width: devicewidth/3
+    width: devicewidth/2
     height: deviceheight
 
     Rectangle{
@@ -10,8 +10,10 @@ Item {
 
         Column{
             anchors.bottom: parent.bottom
+            spacing: 5
             Text{
                 id: home
+                font.pointSize: 16
                 text: "Home Page"
             }
             Text{

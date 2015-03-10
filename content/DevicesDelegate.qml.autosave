@@ -116,11 +116,6 @@ Item {
                     id: send_command2
                     anchors.fill: parent
                     onClicked: {
-                        console.log(qsTr(status.text))
-                                                console.log("'" + model.state + "'")
-                                                console.log(typeof(model.state))
-                                                console.log(typeof("on"))
-                                                console.log("on")
                         if (qsTr(status.text) == qsTr("on")) {
                                    power_command("off")
                                    console.log("in mousearea")

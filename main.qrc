@@ -10,5 +10,9 @@
         <file>content/Menu.qml</file>
         <file>images/refresh/ic_action_refresh.png</file>
         <file>images/drawer/ic_drawer.png</file>
+        <file>content/Calendar.qml</file>
+        <file>content/ScheduleModel.qml</file>
+        <file>content/ScheduleDelegate.qml</file>
+        <file>content/Settings.qml</file>
     </qresource>
 </RCC>
