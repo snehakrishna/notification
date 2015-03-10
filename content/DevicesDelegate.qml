@@ -50,7 +50,7 @@ Item {
     property bool isLoading: status === XMLHttpRequest.LOADING
     property bool wasLoading: false
 
-    property string ip_addr: "http://10.1.10.167:8080"
+    signal send()
 
     onAppearChanged: {
         container.startRotation = 0.5
@@ -88,7 +88,6 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
                 onClicked: {
-                    console.log("came in here")
                     flipBar.flipUp()
                     flipBar.flipped = true
                 }
@@ -116,21 +115,14 @@ Item {
                     id: send_command2
                     anchors.fill: parent
                     onClicked: {
-                        console.log(qsTr(status.text))
-                                                console.log("'" + model.state + "'")
-                                                console.log(typeof(model.state))
-                                                console.log(typeof("on"))
-                                                console.log("on")
                         if (qsTr(status.text) == qsTr("on")) {
                                    power_command("off")
-                                   console.log("in mousearea")
-                                   console.log(status2.text)
                                }
                                else{
                                    power_command("on")
-                                   console.log("in mousearea")
-                                   console.log(status2.text)
                                }
+                        container.send()
+                        //main.reload()
                     }
                 }
             }
@@ -140,8 +132,8 @@ Item {
             id: power_command2
             width: container.ListView.view ? container.ListView.view.cellWidth : 0
             height: container.GridView.view ? container.GridView.view.cellHeight : 0
-            color: "white"
-            border.color: "black"
+            color: "black"
+            border.color: "white"
             border.width: 5
 
             MouseArea {
@@ -178,11 +170,9 @@ Item {
                     height: parent.height
                     onClicked: if (status2.text == qsTr("on")) {
                                    power_command("off")
-                                   console.log(status2.text)
                                }
                                else{
                                    power_command("on")
-                                   console.log(status2.text)
                                }
                 }
             }
@@ -194,7 +184,6 @@ Item {
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
-        console.debug("opened xmlHttpRequest")
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
     }

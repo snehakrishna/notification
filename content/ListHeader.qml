@@ -43,7 +43,6 @@ import QtQuick 2.0
 Item {
     height: 60
     width: parent.width
-
     property bool refresh: state == "pulled" ? true : false
 
     Row {
@@ -69,11 +68,11 @@ Item {
 
     states: [
         State {
-            name: "base"; when: mainListView.contentY >= -120
+            name: "base"; when: parent.contentY >= -120
             PropertyChanges { target: arrow; rotation: 180 }
         },
         State {
-            name: "pulled"; when: mainListView.contentY < -120
+            name: "pulled"; when: parent.contentY < -120
             PropertyChanges { target: label; text: "Release to refresh..." }
             PropertyChanges { target: arrow; rotation: 0 }
         }

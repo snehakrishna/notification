@@ -15,5 +15,8 @@
         <file>content/ScheduleDelegate.qml</file>
         <file>content/Settings.qml</file>
         <file>content/Activity.qml</file>
+        <file>content/DevicesPage.qml</file>
+        <file>content/MenuButton.qml</file>
+        <file>content/ScheduleBox.qml</file>
     </qresource>
 </RCC>

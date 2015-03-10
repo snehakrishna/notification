@@ -2,6 +2,8 @@ import QtQuick 2.0
 
 Item{
     id: screen
+    signal activate(string option)
+    state: "DRAWER_CLOSED"
 
     Rectangle {
         z: 0
@@ -51,6 +53,11 @@ Item{
         z: 1
         anchors.right: hide_menu.left
         id: menubar
+        onActivated: {
+            screen.activate(option)
+            screen.state = "DRAWER_CLOSED"
+            //console.log(option)
+        }
     }
     MouseArea{
         z: 1
@@ -63,11 +70,11 @@ Item{
 
     states: [
         State {
-            name: "DRAWER_CLOSED"; when: hide_menu.x == - hide_menu.width
+            name: "DRAWER_CLOSED"
             PropertyChanges { target: hide_menu; x: - hide_menu.width}
         },
         State {
-            name: "DRAWER_OPEN"; when: hide_menu.x == menubar.width
+            name: "DRAWER_OPEN"
             PropertyChanges { target: hide_menu; x: menubar.width}
         }
     ]
