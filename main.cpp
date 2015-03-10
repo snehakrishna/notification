@@ -39,6 +39,9 @@
 #include <QDebug>
 #include <QObject>
 #include <QtCore>
+#include <QApplication>
+
+#include "energygraph.h"
 
 //#include "notificationclient.h"
 //#include "internetconnection.h"
@@ -48,8 +51,13 @@
 
 int main(int argc, char **argv)
 {
-    QGuiApplication app(argc, argv);
-    QScreen *screen = QGuiApplication::primaryScreen();
+//    QGuiApplication app(argc, argv);
+//    QScreen *screen = QGuiApplication::primaryScreen();
+//    int height = screen->size().height();
+//    int width = screen->size().width();
+
+    QApplication app(argc, argv);
+    QScreen *screen = QApplication::primaryScreen();
     int height = screen->size().height();
     int width = screen->size().width();
 
@@ -60,10 +68,12 @@ int main(int argc, char **argv)
 //    view.engine()->rootContext()->setContextProperty(QLatin1String("notificationClient"),
 //                                                     notificationClient);
 
+    qmlRegisterType<EnergyGraph>("EnergyGraph", 1, 0, "EnergyGraph");
     view.engine()->rootContext()->setContextProperty(QLatin1String("height"),
                                                      height);
     view.engine()->rootContext()->setContextProperty(QLatin1String("width"),
                                                      width);
+    view.resize(1000,1000);
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     view.show();

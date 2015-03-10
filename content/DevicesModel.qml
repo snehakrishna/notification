@@ -8,7 +8,7 @@ Item {
     property string consumerKey : ""
     property string consumerSecret : ""
     property string bearerToken : ""
-    property string ip_addr: "http://10.1.7.56:8080"
+    property string ip_addr: "http://10.1.9.52:8080"
 
     property variant model: devices
     property string from : ""

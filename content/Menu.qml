@@ -29,6 +29,7 @@ Item {
             Text{
                 id: energy
                 text: "Energy Use"
+
             }
             Text{
                 id: settings

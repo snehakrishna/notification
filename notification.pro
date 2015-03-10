@@ -1,7 +1,9 @@
 TEMPLATE = app
 
-QT += quick qml
-SOURCES += main.cpp
+QT += quick qml widgets printsupport
+SOURCES += main.cpp \
+    qcustomplot.cpp \
+    energygraph.cpp
 RESOURCES += main.qrc
 
 OTHER_FILES = main.qml \
@@ -39,3 +41,7 @@ INSTALLS += target
 #DISTFILES += \
 #    content/DevicesModel.qml \
 #    main.qml
+
+HEADERS += \
+    qcustomplot.h \
+    energygraph.h
