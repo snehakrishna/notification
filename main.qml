@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import "content"
+import EnergyGraph 1.0
 
 Rectangle {
     id: main
