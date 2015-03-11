@@ -150,7 +150,7 @@ double EnergyGraph::getEnergyGoal() {
     QNetworkAccessManager mgr;
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
 
-    QNetworkRequest req( QUrl( QString("http://10.1.9.52:8080/sensors/abc/energygoal")));
+    QNetworkRequest req( QUrl( QString("http://10.1.4.248:8080/sensors/abc/energygoal")));
     QNetworkReply *reply = mgr.get(req);
     eventLoop.exec();
 
@@ -180,7 +180,7 @@ QVector<energyHistory> EnergyGraph::getEnergyHistories() {
     QNetworkAccessManager mgr;
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
 
-    QNetworkRequest req( QUrl( QString("http://10.1.9.52:8080/sensors/abc/energyhistories")));
+    QNetworkRequest req( QUrl( QString("http://10.1.4.248:8080/sensors/abc/energyhistories")));
     QNetworkReply *reply = mgr.get(req);
     eventLoop.exec();
 
