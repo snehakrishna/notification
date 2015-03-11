@@ -141,7 +141,7 @@ Item {
             }
             wasLoading = (status === XMLHttpRequest.LOADING);
         }
-        var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12';
+        var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12 }';
         req.send(power_data);
     }
 }

@@ -14,11 +14,11 @@ Rectangle {
     property int inAnimDur: 250
     property int counter: 0
     property int counter_temp: 0
-    property alias isLoading: devicesModel.isLoading
+    //property alias isLoading: devicesModel.isLoading
     property var idx
     property var ids
 
-    Component.onCompleted: { ids = new Array(); devicesModel.reload()}
+    //Component.onCompleted: { ids = new Array(); devicesModel.reload()}
 
     function idInModel(id)
     {
@@ -28,7 +28,9 @@ Rectangle {
         return 0
     }
 
-    DevicesModel {
+    Settings{}
+}
+/*    DevicesModel {
         id: devicesModel
         onIsLoaded: {
             console.debug("Reload")
@@ -110,7 +112,7 @@ Rectangle {
         }
 
     }
-}
+}*/
 
     /*
     Column {

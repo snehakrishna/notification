@@ -36,6 +36,7 @@ Item {
             console.debug(idx.length + " new device")
             main.counter = idx.length
             main.counter_temp = idx.length
+        }
     }
 
     GridView {

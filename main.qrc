@@ -14,5 +14,6 @@
         <file>content/ScheduleModel.qml</file>
         <file>content/ScheduleDelegate.qml</file>
         <file>content/Settings.qml</file>
+        <file>content/Activity.qml</file>
     </qresource>
 </RCC>
