@@ -1,148 +1,272 @@
 import QtQuick 2.0
-
+import QtQuick.Controls 1.3
 
 Item {
     id: container
     property real hm: 1.0
-    property int appear: -1
-    property real startRotation: 1
-
+    //    property int appear: -1
+    //    property real startRotation: 1
     property int status: XMLHttpRequest.UNSENT
     property bool isLoading: status === XMLHttpRequest.LOADING
     property bool wasLoading: false
-
-    property string ip_addr: "http://10.1.10.167:8080"
-
-    onAppearChanged: {
-        container.startRotation = 0.5
-        flipBar.animDuration = appear;
-        delayedAnim.start();
-    }
-
-    SequentialAnimation {
-        id: delayedAnim
-        PauseAnimation { duration: 50 }
-        ScriptAction { script: flipBar.flipDown(startRotation); }
-    }
-
     width: parent.width
-    height: flipBar.height * hm
+    height: day_schedule.height
 
+    Rectangle {
+        id: day_schedule
+        width: container.ListView.view ? container.ListView.view.width : 0
+        height: day.height + day.y + schedules.height //+ inputstuff.height//children.height
+        border.color: "blue"
+        border.width: 5
+        property var sched: model.schedule
 
-    FlipBar {
-        id: flipBar
+        Text {
+            id: day
+            text: container.int2day(model.day)
+            anchors.horizontalCenter: parent.horizontalCenter
+            y: 10
+            font.pointSize: 36
+            font.bold: true
+            color: "black"
+            Component.onCompleted: console.log(day.text)
+        }
 
-        property bool flipped: false
-        delta: startRotation
-
-        anchors.bottom: parent.bottom
-        width: container.GridView.view ? container.GridView.view.width : 0
-        height: container.GridView.view ? container.GridView.view.height : 0
-
-        front: Rectangle {
-            width: container.GridView.view ? container.GridView.view.cellWidth : 0
-            height: container.GridView.view ? container.GridView.view.cellHeight : 0
-            border.color: "blue"
-            border.width: 5
-
-            Text {
-                id: device
-                text: model.sensor_id
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.verticalCenter
-                x: 10; y: 9
-                font.pointSize: 18
-                font.bold: true
-                color: "black"
-            }
-            Text {
-                id: status
-                text: model.state
-                font.pointSize: 14
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: device.bottom
+        Column{
+            id: schedules
+            spacing: 10
+            anchors.top: day.bottom
+            Repeater{
+                model: day_schedule.sched
+                Component.onCompleted: console.log(JSON.stringify(day_schedule.sched))
+                Text{
+                    text: model.sensor_id + ":\t" + container.int2time(model.starttime)
+                          + " -- " + container.int2time(model.endtime)
+                    font.pointSize: 14
+                    Component.onCompleted: console.log(text)
                 }
             }
         }
-
-        back: Rectangle {
-            id: power_command
-            width: container.ListView.view ? container.ListView.view.cellWidth : 0
-            height: container.GridView.view ? container.GridView.view.cellHeight : 0
-            color: "white"
-
-            Text {
-                id: device2
-                text: model.sensor_id
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.verticalCenter
-                x: 10; y: 9
-                font.pointSize: 18
-                font.bold: true
-                color: "black"
-            }
-            Text {
-                id: status2
-                text: model.state
-                font.pointSize: 14
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: device2.bottom
+        /*Column{
+            id: inputstuff
+            anchors.top: schedules.bottom
+            Row{
+                spacing: 5
+                Text{
+                    id: sensorid
+                    text: "Sensor ID: "
+                    font.pointSize: 16
                 }
 
+                TextInput{
+                    id: sensor_id
+                    text: "Device 1"
+                    font.pointSize: 16
+                }
+            }
+
+            Row{
+                spacing: 5
+                Text{
+                    text: "Start Time: "
+                    font.pointSize: 16
+                }
+
+                TextInput{
+                    id: starthour
+                    text: "Hour"
+                    validator: IntValidator{bottom: 1; top: 12}
+                    font.pointSize: 16
+                }
+                Text{
+                    id: starttime
+                    text: ":"
+                    font.pointSize: 16
+                }
+                TextInput{
+                    id: startmin
+                    text: "Min"
+                    validator: IntValidator{bottom: 0; top: 59}
+                    font.pointSize: 16
+                }
+                ComboBox{
+                    id: ampm1
+                    width: 200
+                    model: ["AM", "PM"]
+                }
+
+                ComboBox{
+                    id: startday
+                    width: 200
+                    model: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                }
+            }
+
+            Row{
+                spacing: 5
+                Text{
+                    text: "End Time: "
+                    font.pointSize: 16
+                }
+
+                TextInput{
+                    id: endhour
+                    text: "Hour"
+                    validator: IntValidator{bottom: 1; top: 12}
+                    font.pointSize: 16
+                }
+                Text{
+                    id: endtime
+                    text: ":"
+                    font.pointSize: 16
+                }
+                TextInput{
+                    id: endmin
+                    text: "Min"
+                    validator: IntValidator{bottom: 0; top: 59}
+                    font.pointSize: 16
+                }
+                ComboBox{
+                    id: ampm2
+                    width: 200
+                    model: ["AM", "PM"]
+                }
+
+                ComboBox{
+                    id: endday
+                    width: 200
+                    model: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                }
+            }
+
+            Rectangle{
+                color: 'lightgrey'
+                height: text_id.height + 15
+                width: text_id.width + 15
+                Text{
+                    id: text_id
+                    text: "Add New"
+                    font.pointSize: 14
+                }
                 MouseArea{
-                    id: send_command
-                    width: parent.width
-                    height: parent.height
-                    onClicked: if (status2.text == "on") {
-                                   power_command("off")
-                               }
-                               else{
-                                   power_command("on")
-                               }
+                    anchors.fill: parent
+                    onClicked: {
+                        var sm = startmin.text
+                        var sh = starthour.text
+                        var em = endmin.text
+                        var eh = endhour.text
+                        container.add_schedule(container.time2int(sm, sh, ampm1.currentText),
+                                               container.time2int(em, eh, ampm2.currentText),
+                                               container.day2int(startday.currentText),
+                                               container.day2int(endday.currentText),
+                                               sensor_id.text)
+                    }
                 }
             }
-
-            State: [
-                State {
-                    name: "OFF"; when: status2.text == "off"
-                },
-                State {
-                    name: "ON"; when: status2.text == "on"
-                }
-            ]
-        }
+        }*/
     }
-    function power_command(state) {
+
+    function add_schedule(starttime_t, endtime_t, startday_t, endday_t, sensor_id_t) {
+        if (starttime_t == null || endtime_t == null){
+            console.log("error")
+            return "error"
+        }
+        var sched_obj = {"sensor_id": sensor_id_t,
+            "starttime": starttime_t,
+            "startday": startday_t,
+            "endtime": endtime_t,
+            "endday": endday_t}
+        var new_sched = '{ "sensor_id" : "' + sensor_id_t
+                + '", "schedules":["' + JSON.stringify(sched_obj) + ']}';
+        console.log(new_sched);
         var req = new XMLHttpRequest;
         req.open("PUT", ip_addr + "/sensors/" + model.sensor_id, true);
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
         console.debug("opened xmlHttpRequest")
-        req.onreadystatechange = function() {
-            console.debug("onreadystatechange")
-            status = req.readyState;
-            if (status === XMLHttpRequest.DONE) {
-                //console.debug("mystuff: ", req.responseText)
-                var objectArray = JSON.parse(req.responseText);
-                if (objectArray.errors !== undefined)
-                    console.log("Error fetching tweets: " + objectArray.errors[0].message)
-                else {
-                    for (var key in objectArray) {
-                        var jsonObject = objectArray[key];
-                        console.debug(objectArray[key].sensor_id)
-                        devices.append(jsonObject);
-                    }
-                }
-                if (wasLoading == true)
-                    wrapper.isLoaded()
-            }
-            wasLoading = (status === XMLHttpRequest.LOADING);
+        req.send(new_sched);
+    }
+
+    function time2int (m, h, am){
+        var hour, time
+        if (h == 12){
+            hour = 0
         }
-        var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12 }';
-        req.send(power_data);
+        else{
+            hour = +h
+        }
+        time = hour*60 + (+m)
+        if (am == "PM")
+            time = time + 720
+        return time
+    }
+
+    function int2time (m){
+        if (m === 0)
+            return "12:00 AM"
+        else if (m === 1339)
+            return "11:59 PM"
+        else if (m < 720){
+            var hour = Math.floor(m/60)
+            if (hour == 0)
+                hour = 12
+            var min = m % 60
+            if (min == 0)
+                min = "00"
+            return hour + ":" + min + " AM"
+        }
+        else{
+            m = m - 720
+            var hour = Math.floor(m/60)
+            if (hour == 0)
+                hour = 12
+            var min = m % 60
+            if (min == 0)
+                min = "00"
+            return hour + ":" + min + " PM"
+        }
+    }
+
+    function day2int(day){
+        switch (day){
+        case "Sunday":
+            return 0
+        case "Monday":
+            return 1
+        case "Tuesday":
+            return 2
+        case "Wednesday":
+            return 3
+        case "Thursday":
+            return 4
+        case "Friday":
+            return 5
+        case "Saturday":
+            return 6
+        default:
+            return -1
+        }
+    }
+
+    function int2day (i){
+        switch (i){
+        case 0:
+            return "Sunday";
+        case 1:
+            return "Monday";
+        case 2:
+            return "Tuesday";
+        case 3:
+            return "Wednesday";
+        case 4:
+            return "Thursday";
+        case 5:
+            return "Friday";
+        case 6:
+            return "Saturday";
+        default:
+            return "Error in Day"
+        }
     }
 }
 

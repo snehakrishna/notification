@@ -2,9 +2,6 @@ import QtQuick 2.0
 
 Item {
     id: wrapper
-
-    property string ip_addr: "http://10.1.10.167:8080"
-
     property variant model: devices
 
     property int status: XMLHttpRequest.UNSENT
@@ -23,9 +20,9 @@ Item {
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
-        console.debug("opened xmlHttpRequest")
+        //console.debug("opened xmlHttpRequest")
         req.onreadystatechange = function() {
-            console.debug("onreadystatechange")
+            //console.debug("onreadystatechange")
             status = req.readyState;
             if (status === XMLHttpRequest.DONE) {
                 //console.debug("mystuff: ", req.responseText)
@@ -35,12 +32,12 @@ Item {
                 else {
                     for (var key in objectArray) {
                         var jsonObject = objectArray[key];
-                        console.debug(objectArray[key].sensor_id)
                         devices.append(jsonObject);
                     }
                 }
                 if (wasLoading == true)
                     wrapper.isLoaded()
+                scheduleModel.reload()
             }
             wasLoading = (status === XMLHttpRequest.LOADING);
         }
