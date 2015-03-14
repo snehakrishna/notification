@@ -28,7 +28,10 @@ Rectangle {
 
                 MouseArea{
                     anchors.fill: parent
-                    onClicked: root.activated("device")
+                    onClicked:{
+                        root.activated("device")
+                        main.state = "DEVICE"
+                    }
                 }
             }
             Rectangle{
@@ -66,7 +69,10 @@ Rectangle {
 
                 MouseArea{
                     anchors.fill: parent
-                    onClicked: root.activated("schedule")
+                    onClicked: {
+                        root.activated("schedule")
+                        main.state = "SCHEDULE"
+                    }
                 }
             }
             Rectangle{
@@ -85,7 +91,9 @@ Rectangle {
 
                 MouseArea{
                     anchors.fill: parent
-                    onClicked: root.activated("energy")
+                    onClicked: {
+                        main.state = "ENERGY"
+                        root.activated("energy")
                 }
             }
             Rectangle{
@@ -104,7 +112,10 @@ Rectangle {
 
                 MouseArea{
                     anchors.fill: parent
-                    onClicked: root.activated("settings")
+                    onClicked: {
+                        main.state = "SETTINGS"
+                        root.activated("settings")
+                    }
                 }
             }
         }
