@@ -6,6 +6,7 @@ Activity {
     interior: Column{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
+        spacing: 10
         Row {
             Text {
                 id: energy_goal
@@ -39,13 +40,25 @@ Activity {
             }
         }
 
+        Row{
+            spacing:10
+            Text{
+                text: "Energy Goal Notifications"
+            }
 
-        Text{
-            text: "Energy Goal Notifications"
+            CheckBox{
+                checked: true
+            }
         }
+        Row {
+            spacing:10
+            Text{
+                text: "Scheduling Optimization Notifications"
+            }
 
-        Text{
-            text: "Scheduling Optimization Notifications"
+            CheckBox{
+                checked: true
+            }
         }
     }
 }

@@ -54,7 +54,7 @@ Item{
         anchors.right: hide_menu.left
         id: menubar
         onActivated: {
-            screen.activate(option)
+            //screen.activate(option)
             screen.state = "DRAWER_CLOSED"
             //console.log(option)
         }
