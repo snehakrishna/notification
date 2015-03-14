@@ -3,9 +3,6 @@ import QtQuick.Controls 1.3
 import "content"
 import EnergyGraph 1.0
 
-//http://doc.qt.io/qt-5/qml-qtqml-qt.html
-//saving persistent data
-
 Rectangle {
     id: main
     width: width
@@ -206,7 +203,7 @@ Rectangle {
 
         header: MainHeader{
             id: mainHeader2
-            z: inputstuff.z
+            //z: inputstuff.z
         }
 
         footer: ScheduleBox {
@@ -287,12 +284,6 @@ Rectangle {
 
     }
 
-    Rectangle{
-        id: test
-        color: "red"
-        anchors.fill: parent
-    }
-
     Settings{ id: settings}
 
     states: [
@@ -303,7 +294,6 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: false }
-            PropertyChanges { target: test; visible: false }
         },
         State {
             name: "SCHEDULE"
@@ -312,7 +302,6 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: true }
             PropertyChanges { target: settings; visible: false }
-            PropertyChanges { target: test; visible: false }
         },
         State {
             name: "SETTINGS"
@@ -321,7 +310,6 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: true }
-            PropertyChanges { target: test; visible: false }
         }
         //        ,
         //        State {
@@ -332,7 +320,6 @@ Rectangle {
         //            name: "ENERGY"; when: mainListView.contentY >= -120
         //            PropertyChanges { target: arrow; rotation: 180 }
         //        },
-
     ]
 }
 
