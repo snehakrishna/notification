@@ -3,6 +3,7 @@ import QtQuick.Controls 1.2
 import EnergyGraph 1.0
 
 Activity {
+    id: activity
     interior: Column{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -47,7 +48,21 @@ Activity {
             }
 
             CheckBox{
-                checked: true
+                id: goals
+                checked: true //setting in file
+                onClicked: {
+                    //write setting to file
+                    if (checked == true){
+                        var string = 'import QtQuick 2.0; Text {color: "red"; text: "Energy Goal Notifications On"; anchors.horizontalCenter: activity.horizontalCenter; y: 100}'
+                        var newObject = Qt.createQmlObject(string , activity, "dynamicSnippet1");
+                        newObject.destroy(2500);
+                    }
+                    else{
+                        var string = 'import QtQuick 2.0; Text {color: "red"; text: "Energy Goal Notifications Off"; anchors.horizontalCenter: activity.horizontalCenter; y: 100}'
+                        var newObject = Qt.createQmlObject(string, activity, "dynamicSnippet1");
+                        newObject.destroy(2500);
+                    }
+                }
             }
         }
         Row {
@@ -57,7 +72,21 @@ Activity {
             }
 
             CheckBox{
-                checked: true
+                id: optimizations
+                onClicked: {
+                    //write setting to file
+                    if (checked == true){
+                        var string = 'import QtQuick 2.0; Text {color: "red"; text: "Scheduling Optimization Notifications On"; anchors.horizontalCenter: activity.horizontalCenter; y: 100}'
+                        var newObject = Qt.createQmlObject(string , activity, "dynamicSnippet1");
+                        newObject.destroy(2500);
+                        //here create "notifications" from file
+                    }
+                    else{
+                        var string = 'import QtQuick 2.0; Text {color: "red"; text: "Scheduling Optimization Notifications Off"; anchors.horizontalCenter: activity.horizontalCenter; y: 100}'
+                        var newObject = Qt.createQmlObject(string, activity, "dynamicSnippet1");
+                        newObject.destroy(2500);
+                    }
+                }
             }
         }
     }
