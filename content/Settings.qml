@@ -48,6 +48,7 @@ Activity {
             }
 
             CheckBox{
+                id: goals
                 checked: true //setting in file
                 onClicked: {
                     //write setting to file
@@ -71,7 +72,21 @@ Activity {
             }
 
             CheckBox{
-                checked: true
+                id: optimizations
+                onClicked: {
+                    //write setting to file
+                    if (checked == true){
+                        var string = 'import QtQuick 2.0; Text {color: "red"; text: "Scheduling Optimization Notifications On"; anchors.horizontalCenter: activity.horizontalCenter; y: 100}'
+                        var newObject = Qt.createQmlObject(string , activity, "dynamicSnippet1");
+                        newObject.destroy(2500);
+                        //here create "notifications" from file
+                    }
+                    else{
+                        var string = 'import QtQuick 2.0; Text {color: "red"; text: "Scheduling Optimization Notifications Off"; anchors.horizontalCenter: activity.horizontalCenter; y: 100}'
+                        var newObject = Qt.createQmlObject(string, activity, "dynamicSnippet1");
+                        newObject.destroy(2500);
+                    }
+                }
             }
         }
     }

@@ -113,6 +113,41 @@ Column{
                                               calendarListView.day2int(startday.currentText),
                                               calendarListView.day2int(endday.currentText),
                                               sensor_id.text)
+                //opt = get_optimizations()
+                //if(user wants optimizations){
+                //display "notification"}
+                //else{
+                //put "notification" into file}
+            }
+            function get_optimizations(){
+                var req = new XMLHttpRequest;
+                req.open("GET", ip_addr + "/sensors", true);
+                req.setRequestHeader("content-type", "application/json");
+                req.setRequestHeader("accept", "application/json");
+                req.responseType = "json"
+                //console.debug("opened xmlHttpRequest")
+                req.onreadystatechange = function() {
+                    //console.debug("onreadystatechange")
+                    status = req.readyState;
+                    if (status === XMLHttpRequest.DONE) {
+                        //console.debug("mystuff: ", req.responseText)
+                        console.log(req.status)
+                        var objectArray = JSON.parse(req.responseText);
+                        if (objectArray.errors !== undefined)
+                            console.log("Error fetching tweets: " + objectArray.errors[0].message)
+                        else {
+                            for (var key in objectArray) {
+                                var jsonObject = objectArray[key];
+                                devices.append(jsonObject);
+                            }
+                        }
+                        if (wasLoading == true)
+                            wrapper.isLoaded()
+                        scheduleModel.reload()
+                    }
+                    wasLoading = (status === XMLHttpRequest.LOADING);
+                }
+                req.send();
             }
         }
     }
