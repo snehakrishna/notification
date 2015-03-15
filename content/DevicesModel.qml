@@ -27,7 +27,12 @@ Item {
             if (status === XMLHttpRequest.DONE) {
                 //console.debug("mystuff: ", req.responseText)
                 console.log(req.status)
-                var objectArray = JSON.parse(req.responseText);
+                try {
+                    var objectArray = JSON.parse(req.responseText);
+                } catch (e) {
+                    console.log("network not available");
+                    return;
+                }
                 if (objectArray.errors !== undefined)
                     console.log("Error fetching tweets: " + objectArray.errors[0].message)
                 else {

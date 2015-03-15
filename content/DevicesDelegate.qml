@@ -39,6 +39,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import EnergyGraph 1.0
 
 Item {
     id: container
@@ -52,35 +53,51 @@ Item {
 
     signal send()
 
-    onAppearChanged: {
-        container.startRotation = 0.5
-        flipBar.animDuration = appear;
-        delayedAnim.start();
-    }
 
-    SequentialAnimation {
-        id: delayedAnim
-        PauseAnimation { duration: 50 }
-        ScriptAction { script: flipBar.flipDown(startRotation); }
-    }
 
     width: parent.width
     height: flipBar.height * hm
 
 
-    FlipBar {
+    Flipable {
         id: flipBar
 
         property bool flipped: false
-        delta: startRotation
 
         anchors.bottom: parent.bottom
-        width: container.GridView.view ? container.GridView.view.width : 0
-        height: container.GridView.view ? container.GridView.view.height : 0
+        width: container.GridView.view.cellWidth
+        height: container.GridView.view.cellHeight
+
+        transform: Rotation {
+            id: rotation
+            origin.x: flipBar.width/2
+            origin.y: flipBar.height/2
+            axis.x: 0
+            axis.y: 1
+            axis.z: 0
+            angle: 0
+        }
+
+        states: State {
+            name: "BACK"
+            PropertyChanges {
+                target: rotation;
+                angle: 180
+            }
+            when: flipBar.flipped
+        }
+
+        transitions: Transition {
+            NumberAnimation {
+                target: rotation
+                property: "angle"
+                duration: 500
+            }
+        }
 
         front: Rectangle {
-            width: container.GridView.view ? container.GridView.view.cellWidth : 0
-            height: container.GridView.view ? container.GridView.view.cellHeight : 0
+            anchors.centerIn: parent
+            anchors.fill: parent
             border.color: "blue"
             border.width: 5
 
@@ -88,8 +105,8 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
                 onClicked: {
-                    flipBar.flipUp()
-                    flipBar.flipped = true
+                    console.log("Clicked");
+                    flipBar.flipped = !flipBar.flipped;
                 }
             }
 
@@ -130,50 +147,22 @@ Item {
 
         back: Rectangle {
             id: power_command2
-            width: container.ListView.view ? container.ListView.view.cellWidth : 0
-            height: container.GridView.view ? container.GridView.view.cellHeight : 0
-            color: "black"
-            border.color: "white"
-            border.width: 5
+            anchors.centerIn: parent
+            anchors.fill: parent
+            EnergyGraph {
+                anchors.centerIn: parent
+                anchors.fill: parent
+                Component.onCompleted: {
+                    initEnergyGraph(device.text);
+                    setTime(1);
+                }
+            }
 
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
                     flipBar.flipDown()
                     flipBar.flipped = false
-                }
-            }
-
-            Text {
-                id: device2
-                text: model.sensor_id
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.verticalCenter
-                x: 10; y: 9
-                font.pointSize: 18
-                font.bold: true
-                color: "black"
-            }
-            Text {
-                id: status2
-                text: model.state
-                font.pointSize: 14
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: device2.bottom
-                }
-                color: "black"
-
-                MouseArea{
-                    id: send_command
-                    width: parent.width
-                    height: parent.height
-                    onClicked: if (status2.text == qsTr("on")) {
-                                   power_command("off")
-                               }
-                               else{
-                                   power_command("on")
-                               }
                 }
             }
         }
