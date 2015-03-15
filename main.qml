@@ -69,7 +69,7 @@ Rectangle {
                 main.sched_count_temp--;
                 var day = scheduleModel.model.get(dayx[main.sched_count_temp]).day
                 var sched = scheduleModel.model.get(main.sched_count_temp)
-                console.log("in main 66:")
+                //console.log("in main 66:")
                 main.sched_add({"day": sched.day,
                                    "schedule": sched.schedule})
                 days.push(day)
@@ -91,7 +91,7 @@ Rectangle {
                 }
             }
             //console.debug(sensor_ids)
-            console.debug(idx.length + " new device")
+            //console.debug(idx.length + " new device")
             main.counter = idx.length
             main.counter_temp = idx.length
 
@@ -115,7 +115,7 @@ Rectangle {
                 if (!dayInModel(day))
                     dayx.push(i)
             }
-            console.debug(dayx.length + " new schedule")
+            //console.debug(dayx.length + " new schedule")
             main.sched_count = dayx.length
             main.sched_count_temp = dayx.length
         }
@@ -137,7 +137,7 @@ Rectangle {
 
         onDragEnded: {
             if (header.refresh) {
-                console.log("in refresh devices")
+                //console.log("in refresh devices")
                 clear()
                 timer.start()
                 main.reload() }
@@ -155,7 +155,7 @@ Rectangle {
 
         function mainlistview_clear() {
             var counter = main.counter
-            console.debug("clear")
+            //console.debug("clear")
             counter--;
             var id = devicesModel.model.get(idx[counter]).id
             var item = devicesModel.model.get(counter)
@@ -194,7 +194,7 @@ Rectangle {
 
         onDragEnded: {
             if (header2.refresh) {
-                console.log("in refresh calendar")
+                //console.log("in refresh calendar")
                 clear()
                 timer.start()
                 main.reload()
@@ -252,7 +252,7 @@ Rectangle {
 
         function add_schedule(starttime_t, endtime_t, startday_t, endday_t, sensor_id_t) {
             if (starttime_t == null || endtime_t == null){
-                console.log("error")
+                //console.log("error")
                 return "error"
             }
             var sched_obj = {"sensor_id": sensor_id_t,
@@ -261,19 +261,19 @@ Rectangle {
                 "endtime": endtime_t,
                 "endday": endday_t}
             var new_sched = { "sensor_id" : sensor_id_t, "schedules":[ sched_obj]};
-            console.log(new_sched);
+            //console.log(new_sched);
             var req = new XMLHttpRequest;
             req.open("PUT", ip_addr + "/sensors/" + model.sensor_id);
             req.setRequestHeader("content-type", "application/json");
             req.setRequestHeader("accept", "application/json");
             req.responseType = "json"
-            console.debug("opened xmlHttpRequest")
+            //console.debug("opened xmlHttpRequest")
             req.send(JSON.stringify(new_sched));
         }
 
         function calendarlistview_clear() {
             var counter = main.sched_count
-            console.debug("clear sched")
+            //console.debug("clear sched")
             counter--;
             var id = scheduleModel.model.get(idx[counter]).id
             var item = scheduleModel.model.get(counter)

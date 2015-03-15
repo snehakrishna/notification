@@ -18,8 +18,8 @@ Item {
     function encodePhrase(x) { return encodeURIComponent(x); }
 
     function reload() {
-        console.log("in schedule reload")
-        console.log(main.sensor_ids)
+        //console.log("in schedule reload")
+        //console.log(main.sensor_ids)
         schedule.clear()
         sched_wrapper.sensor_array = new Array()
         var reqs = new Array()
@@ -36,32 +36,6 @@ Item {
             //console.debug("opened xmlHttpRequest")
             var j = i
             reqs[i].onreadystatechange = returnOnReadyStateChange(reqs[i])
-                    /*function() {
-                //console.debug("onreadystatechange schedule")
-                status = reqs[j].readyState;
-                if (status === XMLHttpRequest.DONE) {
-                    console.debug("mystuff: ", reqs[i].responseText)
-                    var objectArray = JSON.parse(reqs[i].responseText);
-                    if (objectArray.errors !== undefined)
-                        console.log("Error fetching tweets: " + objectArray.errors[0].message)
-                    else {
-                        sensor_array.push(objectArray);
-                        /*for (var key in objectArray) {
-                            var jsonObject = objectArray[key];
-                            //console.debug(objectArray[key].sensor_id)
-                            sensor_array.push(jsonObject);
-                        }
-                    }
-                    if (wasLoading == true){
-                        donecount--
-                        console.log(donecount)
-                    }
-                    if (donecount == 0){
-                        sched_wrapper.trigger()
-                    }
-                }
-                wasLoading = (status === XMLHttpRequest.LOADING);
-            }*/
             reqs[i].send();
         }
     }
@@ -86,7 +60,7 @@ Item {
                             }
                             if (wasLoading == true){
                                 donecount++
-                                console.log(donecount)
+                                //console.log(donecount)
                             }
                             if (donecount == main.sensor_ids.length){
                                 donecount = 0
@@ -98,7 +72,7 @@ Item {
     }
 
     function sorting(){
-        console.log("insort")
+        //console.log("insort")
 
         var day_schedule = new Array(7)
         for (var day = 0; day < 7; day ++){

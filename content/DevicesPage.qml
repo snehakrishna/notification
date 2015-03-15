@@ -21,14 +21,14 @@ Item{
     DevicesModel {
         id: devicesModel
         onIsLoaded: {
-            console.debug("Reload")
+            //console.debug("Reload")
             idx = new Array()
             for (var i = 0; i < devicesModel.model.count; i++) {
                 var id = devicesModel.model.get(i).id
                 if (!idInModel(id))
                     idx.push(i)
             }
-            console.debug(idx.length + " new device")
+            //console.debug(idx.length + " new device")
             counter = idx.length
             counter_temp = idx.length
 
