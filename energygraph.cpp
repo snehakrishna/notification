@@ -26,13 +26,30 @@ EnergyGraph::~EnergyGraph()
     mCustomPlot = 0;
 }
 
-void EnergyGraph::initEnergyGraph()
+void EnergyGraph::initEnergyGraph(QString sensorId)
 {
+    this->mSensorId = sensorId;
     mCustomPlot = new QCustomPlot();
     updateCustomPlotSize();
     setupEnergyGraph(mCustomPlot);
 //    setupQuadraticDemo(mCustomPlot);
     connect(mCustomPlot, &QCustomPlot::afterReplot, this, &EnergyGraph::onCustomReplot);
+    mCustomPlot->replot();
+}
+
+void EnergyGraph::setTime(int months) {
+    if (!mCustomPlot) {
+        qDebug() << "Call initEnergyGraph first";
+        return;
+    }
+    if (months > 12) {
+        qDebug() << "Time only goes to a year";
+        return;
+    }
+    int currentTime = QDateTime::currentDateTime().toTime_t();
+    int monthStart = QDateTime::currentDateTime().addMonths(-1*months).toTime_t();
+    mCustomPlot->xAxis->setRange(monthStart, currentTime);
+    mCustomPlot->yAxis->rescale();
     mCustomPlot->replot();
 }
 
@@ -58,46 +75,44 @@ void EnergyGraph::updateCustomPlotSize()
 
 void EnergyGraph::onCustomReplot()
 {
-    qDebug() << Q_FUNC_INFO;
     update();
 }
 
 void EnergyGraph::setupEnergyGraph( QCustomPlot* customPlot)
 {
-    qDebug() << Q_FUNC_INFO;
     QCPAxisRect *axisRect = customPlot->axisRect();
 
     double price = getEnergyGoal();
     double currentPrice = 0;
     QVector<energyHistory> energyHistories = getEnergyHistories();
 
-    QVector<double> x(energyHistories.size() * 2), y(energyHistories.size() * 2); // start and end for each
+    QVector<double> x(2), y(2); // start and end for each
     QVector<double> xl(energyHistories.size() * 2), yl(energyHistories.size() * 2);
 
     //setting for past month - year
     double lastMonthTime = QDateTime::currentDateTime().addMonths(-1).toTime_t();
 
-    for(int i = 0; i < energyHistories.size(); i++) {
-        x[i*2] = (energyHistories[i].startTime - lastMonthTime) / 1000/60/60/24;
-        y[i*2] = price;
-        x[i*2+1] = (energyHistories[i].endTime - lastMonthTime) / 1000/60/60/24;
-        y[i*2+1] = price;
+    x[0] = 0;
+    x[1] = QDateTime::currentDateTime().toTime_t();
 
-        xl[i*2] = (energyHistories[i].startTime - lastMonthTime) / 1000/60/60/24;
+    y[0] = price;
+    y[1] = price;
+
+    for(int i = 0; i < energyHistories.size(); i++) {
+        xl[i*2] = (energyHistories[i].startTime);
         yl[i*2] = currentPrice;
 
         currentPrice += energyHistories[i].price;
-        qDebug() << y[i*2];
-        xl[i*2+1] = (energyHistories[i].endTime - lastMonthTime) / 1000/60/60/24;
+        xl[i*2+1] = (energyHistories[i].endTime);
         yl[i*2+1] = currentPrice;
     }
+    maxYVal = currentPrice;
     customPlot->addGraph();
     customPlot->graph(0)->setPen(QPen(Qt::red));
     customPlot->graph(0)->setData(x, y);
 
     customPlot->addGraph();
     customPlot->graph(1)->setPen(QPen(Qt::green));
-//    customPlot->graph( 1 )->setSelectedPen( QPen( Qt::blue, 2 ) );
     customPlot->graph(1)->setData(xl, yl);
 
     customPlot->rescaleAxes();
@@ -106,8 +121,6 @@ void EnergyGraph::setupEnergyGraph( QCustomPlot* customPlot)
 
 void EnergyGraph::setupQuadraticDemo( QCustomPlot* customPlot )
 {
-    qDebug() << Q_FUNC_INFO;
-
     // make top right axes clones of bottom left axes:
     QCPAxisRect* axisRect = customPlot->axisRect();
 
@@ -150,17 +163,14 @@ double EnergyGraph::getEnergyGoal() {
     QNetworkAccessManager mgr;
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
 
-    QNetworkRequest req( QUrl( QString("http://10.1.4.248:8080/sensors/abc/energygoal")));
+    QNetworkRequest req( QUrl( QString("http://10.1.2.175:8080/sensors/") + this->mSensorId + QString("/energygoal")));
     QNetworkReply *reply = mgr.get(req);
     eventLoop.exec();
 
     if (reply->error() == QNetworkReply::NoError)
-    {
-        qDebug() << "Success: ";
-        
+    {        
         QJsonDocument jsonResponse = QJsonDocument::fromJson(reply->readAll());
         QJsonObject jsonObject = jsonResponse.object();
-        qDebug() << "Returning " << jsonObject["goal_price"].toString();
 
         goal = jsonObject["goal_price"].toDouble();
         
@@ -168,7 +178,6 @@ double EnergyGraph::getEnergyGoal() {
         qDebug() << "Error: " << reply->readAll();
     }
     delete reply;
-    qDebug() << "Returning " << goal;
     return goal;
 }
 
@@ -180,14 +189,12 @@ QVector<energyHistory> EnergyGraph::getEnergyHistories() {
     QNetworkAccessManager mgr;
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
 
-    QNetworkRequest req( QUrl( QString("http://10.1.4.248:8080/sensors/abc/energyhistories")));
+    QNetworkRequest req( QUrl( QString("http://10.1.2.175:8080/sensors/") + this->mSensorId + QString("/energyhistories")));
     QNetworkReply *reply = mgr.get(req);
     eventLoop.exec();
 
     if (reply->error() == QNetworkReply::NoError)
     {
-        qDebug() << "Success: ";
-
         QJsonDocument jsonResponse = QJsonDocument::fromJson(reply->readAll());
         QJsonArray jsonArray = jsonResponse.array();
         foreach (const QJsonValue & v, jsonArray) {

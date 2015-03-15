@@ -15,7 +15,7 @@ Rectangle {
 
     property int devicewidth: width
     property int deviceheight: height
-    property string ip_addr: "http://10.1.5.90:8080"
+    property string ip_addr: "http://10.1.2.175:8080"
 
     property int inAnimDur: 250
     property int counter: 0
@@ -313,6 +313,15 @@ Rectangle {
             PropertyChanges { target: calendarListView; visible: true }
             PropertyChanges { target: settings; visible: false }
             PropertyChanges { target: test; visible: false }
+        },
+        State {
+            name: "SETTINGS"
+            PropertyChanges { target: devicesModel; visible: true }
+            PropertyChanges { target: mainListView; visible: false }
+            PropertyChanges { target: scheduleModel; visible: true }
+            PropertyChanges { target: calendarListView; visible: false }
+            PropertyChanges { target: settings; visible: true }
+            PropertyChanges { target: test; visible: false }
         }
         //        ,
         //        State {
@@ -323,16 +332,7 @@ Rectangle {
         //            name: "ENERGY"; when: mainListView.contentY >= -120
         //            PropertyChanges { target: arrow; rotation: 180 }
         //        },
-        ,
-        State {
-            name: "SETTINGS"; when: mainListView.contentY >= -120
-            PropertyChanges { target: devicesModel; visible: true }
-            PropertyChanges { target: mainListView; visible: false }
-            PropertyChanges { target: scheduleModel; visible: true }
-            PropertyChanges { target: calendarListView; visible: false }
-            PropertyChanges { target: settings; visible: true }
-            PropertyChanges { target: test; visible: false }
-        }
+
     ]
 }
 
