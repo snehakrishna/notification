@@ -92,6 +92,6 @@ Item {
         default:
             return "Error in Day"
         }
-
+    }
 }
 

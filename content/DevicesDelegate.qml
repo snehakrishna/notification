@@ -53,11 +53,8 @@ Item {
 
     signal send()
 
-
-
     width: parent.width
     height: flipBar.height * hm
-
 
     Flipable {
         id: flipBar
