@@ -7,10 +7,6 @@
 #include <QNetworkReply>
 #include <QUrlQuery>
 
-#define IP "10.1.10.167"
-
-
-
 EnergyGraph::EnergyGraph( QQuickItem *parent ) : QQuickPaintedItem(parent), mCustomPlot(0)
 {
     setFlag( QQuickItem::ItemHasContents, true);
@@ -26,8 +22,9 @@ EnergyGraph::~EnergyGraph()
     mCustomPlot = 0;
 }
 
-void EnergyGraph::initEnergyGraph(QString sensorId)
+void EnergyGraph::initEnergyGraph(QString ipAddr, QString sensorId)
 {
+    this->mIpAddr = ipAddr;
     this->mSensorId = sensorId;
     mCustomPlot = new QCustomPlot();
     updateCustomPlotSize();
@@ -163,7 +160,7 @@ double EnergyGraph::getEnergyGoal() {
     QNetworkAccessManager mgr;
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
 
-    QNetworkRequest req( QUrl( QString("http://10.1.2.175:8080/sensors/") + this->mSensorId + QString("/energygoal")));
+    QNetworkRequest req( QUrl( QString("http://") + mIpAddr + QString("/sensors/") + this->mSensorId + QString("/energygoal")));
     QNetworkReply *reply = mgr.get(req);
     eventLoop.exec();
 
@@ -189,7 +186,7 @@ QVector<energyHistory> EnergyGraph::getEnergyHistories() {
     QNetworkAccessManager mgr;
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
 
-    QNetworkRequest req( QUrl( QString("http://10.1.2.175:8080/sensors/") + this->mSensorId + QString("/energyhistories")));
+    QNetworkRequest req( QUrl(  QString("http://") + mIpAddr + QString("/sensors/") + this->mSensorId + QString("/energyhistories")));
     QNetworkReply *reply = mgr.get(req);
     eventLoop.exec();
 

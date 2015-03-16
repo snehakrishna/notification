@@ -20,7 +20,7 @@ public:
 
     void paint( QPainter* painter);
 
-    Q_INVOKABLE void initEnergyGraph(QString sensorId);
+    Q_INVOKABLE void initEnergyGraph(QString ipAddr, QString sensorId);
     Q_INVOKABLE void setTime(int months);
 
 
@@ -32,6 +32,7 @@ private:
     QCustomPlot* mCustomPlot;
     float maxYVal;
     QString mSensorId;
+    QString mIpAddr;
 
     double getEnergyGoal();
     QVector<energyHistory> getEnergyHistories();

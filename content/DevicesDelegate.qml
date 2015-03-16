@@ -153,7 +153,7 @@ Item {
                 anchors.centerIn: parent
                 anchors.fill: parent
                 Component.onCompleted: {
-                    initEnergyGraph(device.text);
+                    initEnergyGraph(ip_addr, device.text);
                     setTime(1);
                 }
             }
