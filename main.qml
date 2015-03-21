@@ -138,8 +138,8 @@ Rectangle {
         onDragEnded: {
             if (header.refresh) {
                 //console.log("in refresh devices")
-                clear()
-                timer.start()
+                //clear()
+                //timer.start()
                 main.reload() }
         }
 
@@ -148,11 +148,13 @@ Rectangle {
             y: -mainListView.contentY - height
         }
 
-        MainHeader{
+        header: MainHeader{
             id: mainHeader
-            anchors.top: header.bottom
+            //anchors.top: header.bottom
             disptitle: "Devices"
         }
+
+        footer: AddDevice {}
 
         function mainlistview_clear() {
             var counter = main.counter
@@ -168,6 +170,8 @@ Rectangle {
     }
 
     function reload() {
+        clear()
+        timer.start()
         devicesModel.reload()
         //scheduleModel.reload()
     }
@@ -196,8 +200,8 @@ Rectangle {
         onDragEnded: {
             if (header2.refresh) {
                 //console.log("in refresh calendar")
-                clear()
-                timer.start()
+                //clear()
+                //timer.start()
                 main.reload()
             }
         }
@@ -270,6 +274,7 @@ Rectangle {
             req.responseType = "json"
             //console.debug("opened xmlHttpRequest")
             req.send(JSON.stringify(new_sched));
+            main.reload()
         }
 
         function calendarlistview_clear() {

@@ -136,7 +136,6 @@ Item {
                                    power_command("on")
                                }
                         container.send()
-                        //main.reload()
                     }
                 }
             }
@@ -172,5 +171,6 @@ Item {
         req.responseType = "json"
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
+        main.reload()
     }
 }
