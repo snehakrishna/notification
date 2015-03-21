@@ -4,12 +4,21 @@ Item{
     id: screen
     signal activate(string option)
     state: "DRAWER_CLOSED"
+    property string disptitle
 
     Rectangle {
         z: 0
         width: devicewidth
         height: deviceheight/10
         color: '#00FF00'
+
+        Text{
+            id: title
+            text: disptitle
+            font.pointSize: 20
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
 
         Rectangle{
             id: drawer
@@ -30,6 +39,8 @@ Item{
                 id: menu
                 text: "MENU"
                 anchors.left: drawer.right
+                font.pointSize: 20
+                anchors.verticalCenter: parent.verticalCenter
             }
 
             MouseArea{
