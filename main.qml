@@ -151,6 +151,7 @@ Rectangle {
         MainHeader{
             id: mainHeader
             anchors.top: header.bottom
+            disptitle: "Devices"
         }
 
         function mainlistview_clear() {
@@ -203,7 +204,7 @@ Rectangle {
 
         header: MainHeader{
             id: mainHeader2
-            //z: inputstuff.z
+            disptitle: "Schedule"
         }
 
         footer: ScheduleBox {

@@ -4,6 +4,8 @@ import EnergyGraph 1.0
 
 Activity {
     id: activity
+    title: "Settings"
+
     interior: Column{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter

@@ -2,7 +2,10 @@ import QtQuick 2.0
 
 Item {
     anchors.fill: parent
-    MainHeader{}
+    property string title
+    MainHeader{
+        disptitle: title
+    }
     property alias interior : loader.sourceComponent
 
     Loader {
