@@ -18,5 +18,6 @@
         <file>content/DevicesPage.qml</file>
         <file>content/MenuButton.qml</file>
         <file>content/ScheduleBox.qml</file>
+        <file>content/AddDevice.qml</file>
     </qresource>
 </RCC>
