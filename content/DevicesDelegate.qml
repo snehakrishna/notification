@@ -39,6 +39,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Dialogs 1.2
 import EnergyGraph 1.0
 
 Item {
@@ -55,6 +56,12 @@ Item {
 
     width: parent.width
     height: flipBar.height * hm
+
+    MessageDialog {
+        id: messageDialog
+        onAccepted: visible = false
+        Component.onCompleted: visible = false
+    }
 
     Flipable {
         id: flipBar
@@ -150,7 +157,7 @@ Item {
                 anchors.fill: parent
                 Component.onCompleted: {
                     initEnergyGraph(ip_addr, device.text);
-                    setTime(1);
+                    setTime(6);
                 }
             }
 
@@ -169,8 +176,40 @@ Item {
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
+        req.onreadystatechange = function() {
+            if (req.readyState === req.DONE) {
+                try {
+                    var object = JSON.parse(req.responseText);
+                    if (state === "on") {
+                        optimizationCheck(object);
+                    }
+                    console.log("finished");
+                } catch (e) {
+                    console.log(e + "Could not reach network");
+                }
+            }
+        }
+
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
         main.reload()
+    }
+
+    function optimizationCheck(obj) {
+        var optimizationString;
+        if (obj.optimizations.is_cheaper_at !== undefined) {
+            if (obj.optimizations.is_cheaper_at.one_am !== undefined) {
+                optimizationString = "You should run this at 1:00 am because it is" +
+                        obj.optimizations.is_cheaper_at.one_am.by / obj.price_per_kwh + "%";
+            } else {
+                optimizationString = "You should run this at 10:00 am because it is" +
+                        obj.optimizations.is_cheaper_at.ten_am.by / obj.price_per_kwh + "%";
+            }
+        } else {
+            optimizationString = "There is no optimization to be made. Nice!"
+        }
+        messageDialog.title = "Optimizations";
+        messageDialog.text = optimizationString;
+        messageDialog.setVisible(true);
     }
 }

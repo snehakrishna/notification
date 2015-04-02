@@ -25,8 +25,6 @@ Item {
             //console.debug("onreadystatechange")
             status = req.readyState;
             if (status === XMLHttpRequest.DONE) {
-                //console.debug("mystuff: ", req.responseText)
-                console.log(req.status)
                 try {
                     var objectArray = JSON.parse(req.responseText);
                 } catch (e) {
