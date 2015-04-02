@@ -26,7 +26,7 @@ Activity {
 
                 function updateEnergyGoal() {
                     var req = new XMLHttpRequest;
-                    req.open("PUT", "http://10.1.4.248:8080/sensors/abc/updategoalprice", true);
+                    req.open("PUT", ip_addr + "/sensors/abc/updategoalprice", true);
                     req.setRequestHeader("content-type", "application/json");
                     req.setRequestHeader("accept", "application/json");
                     req.responseType = "json"

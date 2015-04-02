@@ -55,7 +55,7 @@ Column{
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
-        req.send(JSON.stringify({"sensor_id": device, "room": room}));
+        req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50}));
         main.reload()
     }
 }
