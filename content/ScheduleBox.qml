@@ -135,17 +135,81 @@ Column{
                 var sh = starthour.text
                 var em = endmin.text
                 var eh = endhour.text
-                calendarListView.add_schedule(calendarListView.time2int(sm, sh, ampm1.currentText),
-                                              calendarListView.time2int(em, eh, ampm2.currentText),
-                                              calendarListView.day2int(startday.currentText),
-                                              calendarListView.day2int(endday.currentText),
-                                              sensor_id.text)
+                add_schedule(time2int(sm, sh, ampm1.currentText),
+                             time2int(em, eh, ampm2.currentText),
+                             day2int(startday.currentText),
+                             day2int(endday.currentText),
+                             sensor_id.text)
                 //opt = get_optimizations()
                 //if(user wants optimizations){
                 //display "notification"}
                 //else{
                 //put "notification" into file}
             }
+            function time2int (m, h, am){
+                var hour, time
+                if (h == 12){
+                    hour = 0
+                }
+                else{
+                    hour = +h
+                }
+                time = hour*60 + (+m)
+                if (am == "PM")
+                    time = time + 720
+                return time
+            }
+
+            function day2int(day){
+                switch (day){
+                case "Sunday":
+                    return 0
+                case "Monday":
+                    return 1
+                case "Tuesday":
+                    return 2
+                case "Wednesday":
+                    return 3
+                case "Thursday":
+                    return 4
+                case "Friday":
+                    return 5
+                case "Saturday":
+                    return 6
+                default:
+                    return -1
+                }
+            }
+
+            function add_schedule(starttime_t, endtime_t, startday_t, endday_t, sensor_id_t) {
+                if (starttime_t == null || endtime_t == null){
+                    //console.log("error")
+                    return "error"
+                }
+                var sched_obj = {"sensor_id": sensor_id_t,
+                    "starttime": starttime_t,
+                    "startday": startday_t,
+                    "endtime": endtime_t,
+                    "endday": endday_t}
+                var new_sched = { "sensor_id" : sensor_id_t, "schedules":[ sched_obj]};
+                //console.log(new_sched);
+                var req = new XMLHttpRequest;
+                req.open("PUT", ip_addr + "/sensors/" + model.sensor_id);
+                req.setRequestHeader("content-type", "application/json");
+                req.setRequestHeader("accept", "application/json");
+                req.responseType = "json"
+                req.onreadystatechange = function() {
+                    if (req.readyState === req.DONE) {
+                        try {
+                            main.reload()
+                        } catch (e) {
+                            console.log(e + "Could not reach network");
+                        }
+                    }
+                }
+                req.send(JSON.stringify(new_sched));
+            }
+
             function get_optimizations(){
                 var req = new XMLHttpRequest;
                 req.open("GET", ip_addr + "/sensors", true);

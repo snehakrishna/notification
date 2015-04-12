@@ -73,8 +73,16 @@ Column{
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
+        req.onreadystatechange = function() {
+            if (req.readyState === req.DONE) {
+                try {
+                    main.reload()
+                } catch (e) {
+                    console.log(e + "Could not reach network");
+                }
+            }
+        }
         req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50}));
-        main.reload()
     }
 }
 
