@@ -179,6 +179,7 @@ Item {
         req.onreadystatechange = function() {
             if (req.readyState === req.DONE) {
                 try {
+                    main.reload()
                     var object = JSON.parse(req.responseText);
                     if (state === "on") {
                         optimizationCheck(object);
@@ -192,7 +193,6 @@ Item {
 
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
-        main.reload()
     }
 
     function optimizationCheck(obj) {
