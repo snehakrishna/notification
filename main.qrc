@@ -21,5 +21,7 @@
         <file>content/AddDevice.qml</file>
         <file>images/ic_menu_black_48dp.png</file>
         <file>images/ic_refresh_black_48dp.png</file>
+        <file>content/RoomsModel.qml</file>
+        <file>content/RoomsDelegate.qml</file>
     </qresource>
 </RCC>

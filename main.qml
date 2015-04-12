@@ -141,7 +141,10 @@ Rectangle {
             main.sched_count = dayx.length
             main.sched_count_temp = dayx.length
         }
+    }
 
+    RoomsModel{
+        id: roomModel
     }
 
     MainHeader{
@@ -183,6 +186,7 @@ Rectangle {
 
             //header: headercomponent
             footer: AddDevice { }//footercomponent
+
 
             onDragEnded: {
                 if (header.refresh) {
@@ -346,6 +350,8 @@ Rectangle {
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: false }
             PropertyChanges { target: mainheader; disptitle: "Devices"}
+            PropertyChanges { target: roomModel; visible:true }
+            PropertyChanges { target: roomView; visible: false }
         },
         State {
             name: "SCHEDULE"
@@ -355,6 +361,8 @@ Rectangle {
             PropertyChanges { target: calendarListView; visible: true }
             PropertyChanges { target: settings; visible: false }
             PropertyChanges { target: mainheader; disptitle: "Schedule"}
+            PropertyChanges { target: roomModel; visible:true }
+            PropertyChanges { target: roomView; visible: false }
         },
         State {
             name: "SETTINGS"
@@ -364,6 +372,8 @@ Rectangle {
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: true }
             PropertyChanges { target: mainheader; disptitle: "Settings"}
+            PropertyChanges { target: roomModel; visible:true }
+            PropertyChanges { target: roomView; visible: false }
         },
         State {
             name: "ROOM"
@@ -372,7 +382,9 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: false }
-            PropertyChanges { target: mainheader; disptitle: "Settings"}
+            PropertyChanges { target: mainheader; disptitle: "Room"}
+            PropertyChanges { target: roomModel; visible:true }
+            PropertyChanges { target: roomView; visible: true }
         }
     ]
 }
