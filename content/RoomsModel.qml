@@ -16,7 +16,7 @@ Item {
         rooms.clear()
 
         var req = new XMLHttpRequest;
-        req.open("GET", ip_addr + "/sensors", true);
+        req.open("GET", ip_addr + "/rooms", true);
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
