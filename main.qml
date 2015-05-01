@@ -5,8 +5,8 @@ import EnergyGraph 1.0
 
 Rectangle {
     id: main
-    width: screenWidth
-    height: screenHeight
+    width: 375//screenWidth
+    height: 667//screenHeight
 
     state: "DEVICE"
 
@@ -31,10 +31,6 @@ Rectangle {
         days = new Array(7)
         timer.start()
         devicesModel.reload()
-        console.log("height ", height)
-        console.log("width ", width)
-        console.log("device height ", deviceheight)
-        console.log("device width ", devicewidth)
     }
 
     function idInModel(id)
@@ -154,6 +150,8 @@ Rectangle {
         //z: mainListView.z
         anchors.top: parent.top
         Component.onCompleted: {console.log("from mainheader ", mainheader.height)}
+        drawercolor: '#eee9e9'
+        menucolor: '#eee9e9'
     }
 
     Flickable{
@@ -206,10 +204,10 @@ Rectangle {
             //                z: mainListView.footerItem.z
             //            }
             //        }
-//            Component{
-//                id: footercomponent
-//                AddDevice { }
-//            }
+            //            Component{
+            //                id: footercomponent
+            //                AddDevice { }
+            //            }
 
             function mainlistview_clear() {
                 var counter = main.counter
@@ -326,8 +324,18 @@ Rectangle {
             }
 
         }
+        Settings{
+            id: settings
+            anchors.fill: parent
+        }
     }
-    Settings{ id: settings}
+
+
+    Menu{
+        //anchors.top: mainheader.bottom
+        id: menubar
+        menubarstate: "DRAWER_CLOSED"
+    }
 
     states: [
         State {
@@ -355,8 +363,9 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: true }
-            PropertyChanges { target: mainheader; visible: false}
+            PropertyChanges { target: mainheader; disptitle: "Settings"}
         }
+
         //        ,
         //        State {
         //            name: "ROOM"; when: mainListView.contentY >= -120
@@ -368,63 +377,3 @@ Rectangle {
         //        },
     ]
 }
-
-/*
-    Column {
-        anchors.fill: parent
-        spacing: (height - happyButton.height - sadButton.height - title.height) / 3
-
-        Text {
-            id: title
-            color: "black"
-            font.pixelSize: parent.width / 20
-            text: "How are you feeling?"
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-        }
-
-        Image {
-            id: happyButton
-            height: parent.height / 5
-            fillMode: Image.PreserveAspectFit
-            source: "../images/happy.png"
-            anchors.horizontalCenter: parent.horizontalCenter
-            smooth: true
-
-            Behavior on scale {
-                PropertyAnimation {
-                    duration: 100
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: notificationClient.notification = "User is happy!"
-                onPressed: happyButton.scale = 0.9
-                onReleased: happyButton.scale = 1.0
-            }
-        }
-
-        Image {
-            id: sadButton
-            height: parent.height / 5
-            fillMode: Image.PreserveAspectFit
-            source: "../images/sad.png"
-            anchors.horizontalCenter: parent.horizontalCenter
-            smooth: true
-
-            Behavior on scale {
-                PropertyAnimation {
-                    duration: 100
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: notificationClient.notification = "User is sad :("
-                onPressed: sadButton.scale = 0.9
-                onReleased: sadButton.scale = 1.0
-            }
-        }
-    }
-    */

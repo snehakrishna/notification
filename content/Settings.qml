@@ -2,24 +2,26 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import EnergyGraph 1.0
 
-Activity {
-    id: activity
-    title: "Settings"
-
-    interior: Column{
+Item{
+    Column{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         spacing: 10
+        Component.onCompleted: console.log("in settings: ", width)
         Row {
             Text {
                 id: energy_goal
                 text: "Set New Energy Goal:"
+                font.pointSize: 14
+                font.family: "Arial"
             }
             TextField {
                 id: energyGoal
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: DoubleValidator { bottom: 0 }
                 onAccepted: console.log("accepted: " + energyGoal.text)
+                font.pointSize: 14
+                font.family: "Arial"
             }
             Button {
                 onClicked: (energyGoal.acceptableInput) ? updateEnergyGoal() : console.log("not acceptable");
@@ -47,6 +49,8 @@ Activity {
             spacing:10
             Text{
                 text: "Energy Goal Notifications"
+                font.pointSize: 14
+                font.family: "Arial"
             }
 
             CheckBox{
@@ -71,6 +75,8 @@ Activity {
             spacing:10
             Text{
                 text: "Scheduling Optimization Notifications"
+                font.pointSize: 14
+                font.family: "Arial"
             }
 
             CheckBox{

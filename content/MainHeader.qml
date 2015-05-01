@@ -2,12 +2,13 @@ import QtQuick 2.0
 
 Item{
     id: screen
-    state: "DRAWER_CLOSED"
+    //state: "DRAWER_CLOSED"
     property string disptitle
     height: deviceheight/10
     width: devicewidth
-
-    Component.onCompleted: console.log("in MainHeader ", deviceheight)
+    property int navbarwidth: navbar.width
+    property string menucolor
+    property string drawercolor
 
     Rectangle {
         id: titlerect
@@ -28,7 +29,7 @@ Item{
             id: drawer
             width: parent.height + menu.width
             height: parent.height
-            color: '#eee9e9'
+            color: drawercolor //'#eee9e9'
             anchors.left: parent.left
 
             Image{
@@ -43,6 +44,7 @@ Item{
             Text{
                 id: menu
                 text: "Menu"
+                color: menucolor//'#eee9e9'
                 anchors.left: ic_drawer.right
                 font.pointSize: 20
                 font.family: "Arial"
@@ -56,48 +58,33 @@ Item{
                 anchors.top: drawer.top
                 anchors.bottom: drawer.bottom
                 onClicked:{
-                    if (screen.state == "DRAWER_CLOSED"){
-                        screen.state = "DRAWER_OPEN"
+                    if (menubar.menubarstate == "DRAWER_CLOSED"){
+                        menubar.menubarstate = "DRAWER_OPEN"
                     }
-                    else if (screen.state == "DRAWER_OPEN"){
-                        screen.state = "DRAWER_CLOSED"
+                    else if (menubar.menubarstate == "DRAWER_OPEN"){
+                        menubar.menubarstate = "DRAWER_CLOSED"
                     }
                 }
             }
         }
     }
 
-    Menu{
-        anchors.top: titlerect.bottom
-        anchors.right: hide_menu.left
-        id: menubar
-        onActivated: {
-            screen.state = "DRAWER_CLOSED"
-            //console.log(option)
-        }
-    }
-    MouseArea{
-        id: hide_menu
-        height: menubar.height
-        width: devicewidth - menubar.width
-        x: -hide_menu.width
-        onClicked: screen.state = 'DRAWER_CLOSED'
-    }
-
-    states: [
-        State {
-            name: "DRAWER_CLOSED"
-            PropertyChanges { target: hide_menu; x: - hide_menu.width}
-            PropertyChanges { target: drawer; color: '#eee9e9'}
-        },
-        State {
-            name: "DRAWER_OPEN"
-            PropertyChanges { target: hide_menu; x: menubar.width}
-            //PropertyChanges { target: hide_menu; z: 3}
-            PropertyChanges { target: screen; height: menubar.height}
-            PropertyChanges { target: drawer; color: "#cdc9c9"}
-        }
-    ]
+//    states: [
+//        State {
+//            name: "DRAWER_CLOSED"
+//            PropertyChanges { target: hide_menu; x: - hide_menu.width}
+//            PropertyChanges { target: drawer; color: '#eee9e9'}
+//            PropertyChanges { target: menu; color: '#eee9e9'}
+//        },
+//        State {
+//            name: "DRAWER_OPEN"
+//            PropertyChanges { target: hide_menu; x: menubar.width}
+//            //PropertyChanges { target: hide_menu; z: 3}
+//            PropertyChanges { target: screen; height: menubar.height}
+//            PropertyChanges { target: drawer; color: "#cdc9c9"}
+//            PropertyChanges { target: menu; color: "#cdc9c9"}
+//        }
+//    ]
 
     transitions: [
         Transition {
