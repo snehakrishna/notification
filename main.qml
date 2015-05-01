@@ -5,8 +5,8 @@ import EnergyGraph 1.0
 
 Rectangle {
     id: main
-    width: width
-    height: height
+    width: screenWidth
+    height: screenHeight
 
     state: "DEVICE"
 
@@ -31,6 +31,10 @@ Rectangle {
         days = new Array(7)
         timer.start()
         devicesModel.reload()
+        console.log("height ", height)
+        console.log("width ", width)
+        console.log("device height ", deviceheight)
+        console.log("device width ", devicewidth)
     }
 
     function idInModel(id)
@@ -47,6 +51,28 @@ Rectangle {
             if (days[j] === day)
                 return 1
         return 0
+    }
+
+    function reload() {
+        clear()
+        timer.start()
+        devicesModel.reload()
+        //scheduleModel.reload()
+    }
+
+    function clear(){
+        ids = new Array()
+        days = new Array(7)
+        mainListView.model.clear()
+        calendarListView.model.clear()
+    }
+
+    function add(obj){
+        mainListView.model.insert(0, obj)
+    }
+
+    function sched_add(obj){
+        calendarListView.model.insert(0,obj)
     }
 
     Timer {
@@ -122,174 +148,185 @@ Rectangle {
 
     }
 
-    GridView {
-        id: mainListView
-        anchors.fill: parent
-        delegate: DevicesDelegate {}
-        model: ListModel { id: finalModel }
-        cellWidth: parent.width / 2
-        cellHeight: mainListView.cellWidth
-
-        add: Transition {
-            NumberAnimation { property: "hm"; from: 0; to: 1.0; duration: 300; easing.type: Easing.OutQuad }
-            PropertyAction { property: "appear"; value: 250 }
-        }
-
-        onDragEnded: {
-            if (header.refresh) {
-                //console.log("in refresh devices")
-                //clear()
-                //timer.start()
-                main.reload() }
-        }
-
-        ListHeader {
-            id: header
-            y: -mainListView.contentY - height
-        }
-
-        header: MainHeader{
-            id: mainHeader
-            //anchors.top: header.bottom
-            disptitle: "Devices"
-        }
-
-        footer: AddDevice {}
-
-        function mainlistview_clear() {
-            var counter = main.counter
-            //console.debug("clear")
-            counter--;
-            var id = devicesModel.model.get(idx[counter]).id
-            var item = devicesModel.model.get(counter)
-            mainListView.add( { "sensor_id": item.sensor_id,
-                                 "state": item.state});
-            ids.push(id)
-        }
-
+    MainHeader{
+        id: mainheader
+        //disptitle: "Devices"
+        //z: mainListView.z
+        anchors.top: parent.top
+        Component.onCompleted: {console.log("from mainheader ", mainheader.height)}
     }
 
-    function reload() {
-        clear()
-        timer.start()
-        devicesModel.reload()
-        //scheduleModel.reload()
-    }
+    Flickable{
+        //originX: 0
+        //originY: 100
+        interactive: false
+        anchors.top: mainheader.bottom
+        width: mainheader.width
+        height: deviceheight - mainheader.height
 
-    function clear(){
-        ids = new Array()
-        days = new Array(7)
-        mainListView.model.clear()
-        calendarListView.model.clear()
-    }
+        GridView {
+            interactive: true
+            y: deviceheight/10
+            //anchors.top: mainheader.bottom
+            Component.onCompleted: {console.log("from gridview ", mainheader.height)}
+            id: mainListView
+            anchors.fill: parent
+            delegate: DevicesDelegate {}
+            model: ListModel { id: finalModel }
+            cellWidth: parent.width / 2
+            cellHeight: mainListView.cellWidth
+            //verticalLayoutDirection: ListView.BottomToTop
+            //clip: true
 
-    function add(obj){
-        mainListView.model.insert(0, obj)
-    }
+            add: Transition {
+                NumberAnimation { property: "hm"; from: 0; to: 1.0; duration: 300; easing.type: Easing.OutQuad }
+                PropertyAction { property: "appear"; value: 250 }
+            }
 
-    function sched_add(obj){
-        calendarListView.model.insert(0,obj)
-    }
+            //header: headercomponent
+            footer: footercomponent
 
-    ListView {
-        id: calendarListView
-        anchors.fill: parent
-        delegate: ScheduleDelegate { }
-        model: ListModel { id: week }
+            onDragEnded: {
+                if (header.refresh) {
+                    //console.log("in refresh devices")
+                    //clear()
+                    //timer.start()
+                    main.reload() }
+            }
 
-        onDragEnded: {
-            if (header2.refresh) {
-                //console.log("in refresh calendar")
-                //clear()
-                //timer.start()
+            ListHeader {
+                id: header
+                y: -mainListView.contentY - height - mainheader.height
+            }
+
+            //        Component{
+            //            id: headercomponent
+            //            MainHeader{
+            //                disptitle: "Devices"
+            //                z: mainListView.footerItem.z
+            //            }
+            //        }
+            Component{
+                id: footercomponent
+                AddDevice {}
+            }
+
+            function mainlistview_clear() {
+                var counter = main.counter
+                //console.debug("clear")
+                counter--;
+                var id = devicesModel.model.get(idx[counter]).id
+                var item = devicesModel.model.get(counter)
+                mainListView.add( { "sensor_id": item.sensor_id,
+                                     "state": item.state});
+                ids.push(id)
+            }
+
+        }
+
+        ListView {
+            id: calendarListView
+            anchors.fill: parent
+            delegate: ScheduleDelegate { }
+            model: ListModel { id: week }
+            interactive: true
+
+            onDragEnded: {
+                if (header2.refresh) {
+                    //console.log("in refresh calendar")
+                    //clear()
+                    //timer.start()
+                    main.reload()
+                }
+            }
+
+            /*
+            header: MainHeader{
+                id: mainHeader2
+                disptitle: "Schedule"
+            }*/
+
+            footer: calendarfoot
+            Component {
+                id: calendarfoot
+                ScheduleBox { }
+            }
+
+            ListHeader {
+                id: header2
+                y: -calendarListView.contentY - height - mainheader.height
+            }
+
+            function time2int (m, h, am){
+                var hour, time
+                if (h == 12){
+                    hour = 0
+                }
+                else{
+                    hour = +h
+                }
+                time = hour*60 + (+m)
+                if (am == "PM")
+                    time = time + 720
+                return time
+            }
+
+            function day2int(day){
+                switch (day){
+                case "Sunday":
+                    return 0
+                case "Monday":
+                    return 1
+                case "Tuesday":
+                    return 2
+                case "Wednesday":
+                    return 3
+                case "Thursday":
+                    return 4
+                case "Friday":
+                    return 5
+                case "Saturday":
+                    return 6
+                default:
+                    return -1
+                }
+            }
+
+            function add_schedule(starttime_t, endtime_t, startday_t, endday_t, sensor_id_t) {
+                if (starttime_t == null || endtime_t == null){
+                    //console.log("error")
+                    return "error"
+                }
+                var sched_obj = {"sensor_id": sensor_id_t,
+                    "starttime": starttime_t,
+                    "startday": startday_t,
+                    "endtime": endtime_t,
+                    "endday": endday_t}
+                var new_sched = { "sensor_id" : sensor_id_t, "schedules":[ sched_obj]};
+                //console.log(new_sched);
+                var req = new XMLHttpRequest;
+                req.open("PUT", ip_addr + "/sensors/" + model.sensor_id);
+                req.setRequestHeader("content-type", "application/json");
+                req.setRequestHeader("accept", "application/json");
+                req.responseType = "json"
+                //console.debug("opened xmlHttpRequest")
+                req.send(JSON.stringify(new_sched));
                 main.reload()
             }
-        }
 
-        header: MainHeader{
-            id: mainHeader2
-            disptitle: "Schedule"
-        }
-
-        footer: ScheduleBox {
-            id: inputstuff
-        }
-
-        ListHeader {
-            id: header2
-            y: -calendarListView.contentY - height
-        }
-
-        function time2int (m, h, am){
-            var hour, time
-            if (h == 12){
-                hour = 0
+            function calendarlistview_clear() {
+                var counter = main.sched_count
+                //console.debug("clear sched")
+                counter--;
+                var id = scheduleModel.model.get(idx[counter]).id
+                var item = scheduleModel.model.get(counter)
+                main.add( { "sensor_id": item.sensor_id,
+                             "state": item.state});
+                ids.push(id)
             }
-            else{
-                hour = +h
-            }
-            time = hour*60 + (+m)
-            if (am == "PM")
-                time = time + 720
-            return time
-        }
 
-        function day2int(day){
-            switch (day){
-            case "Sunday":
-                return 0
-            case "Monday":
-                return 1
-            case "Tuesday":
-                return 2
-            case "Wednesday":
-                return 3
-            case "Thursday":
-                return 4
-            case "Friday":
-                return 5
-            case "Saturday":
-                return 6
-            default:
-                return -1
-            }
         }
-
-        function add_schedule(starttime_t, endtime_t, startday_t, endday_t, sensor_id_t) {
-            if (starttime_t == null || endtime_t == null){
-                //console.log("error")
-                return "error"
-            }
-            var sched_obj = {"sensor_id": sensor_id_t,
-                "starttime": starttime_t,
-                "startday": startday_t,
-                "endtime": endtime_t,
-                "endday": endday_t}
-            var new_sched = { "sensor_id" : sensor_id_t, "schedules":[ sched_obj]};
-            //console.log(new_sched);
-            var req = new XMLHttpRequest;
-            req.open("PUT", ip_addr + "/sensors/" + model.sensor_id);
-            req.setRequestHeader("content-type", "application/json");
-            req.setRequestHeader("accept", "application/json");
-            req.responseType = "json"
-            //console.debug("opened xmlHttpRequest")
-            req.send(JSON.stringify(new_sched));
-            main.reload()
-        }
-
-        function calendarlistview_clear() {
-            var counter = main.sched_count
-            //console.debug("clear sched")
-            counter--;
-            var id = scheduleModel.model.get(idx[counter]).id
-            var item = scheduleModel.model.get(counter)
-            main.add( { "sensor_id": item.sensor_id,
-                         "state": item.state});
-            ids.push(id)
-        }
-
     }
-
     Settings{ id: settings}
 
     states: [
@@ -300,6 +337,7 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: false }
+            PropertyChanges { target: mainheader; disptitle: "Devices"}
         },
         State {
             name: "SCHEDULE"
@@ -308,6 +346,7 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: true }
             PropertyChanges { target: settings; visible: false }
+            PropertyChanges { target: mainheader; disptitle: "Schedule"}
         },
         State {
             name: "SETTINGS"
@@ -316,6 +355,7 @@ Rectangle {
             PropertyChanges { target: scheduleModel; visible: true }
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: true }
+            PropertyChanges { target: mainheader; visible: false}
         }
         //        ,
         //        State {

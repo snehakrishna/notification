@@ -69,9 +69,9 @@ int main(int argc, char **argv)
 //                                                     notificationClient);
 
     qmlRegisterType<EnergyGraph>("EnergyGraph", 1, 0, "EnergyGraph");
-    view.engine()->rootContext()->setContextProperty(QLatin1String("height"),
+    view.engine()->rootContext()->setContextProperty(QLatin1String("screenHeight"),
                                                      height);
-    view.engine()->rootContext()->setContextProperty(QLatin1String("width"),
+    view.engine()->rootContext()->setContextProperty(QLatin1String("screenWidth"),
                                                      width);
     view.resize(1000,1000);
     view.setResizeMode(QQuickView::SizeRootObjectToView);

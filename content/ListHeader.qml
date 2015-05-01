@@ -40,19 +40,28 @@
 
 import QtQuick 2.0
 
-Item {
-    height: 60
+Rectangle {
+    id: test
+    height: parent.height
     width: parent.width
     property bool refresh: state == "pulled" ? true : false
+color: "#cdc9c9"
+//    Rectangle{
+//        color: "#cdc9c9"
+//        height: parent.height-60
+//        width: parent.width
+//    }
 
     Row {
         spacing: 6
         height: childrenRect.height
-        anchors.centerIn: parent
+        //anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
 
         Image {
             id: arrow
-            source: "../images/refresh/ic_action_refresh.png"
+            source: "../images/ic_refresh_black_48dp.png"
             transformOrigin: Item.Center
             Behavior on rotation { NumberAnimation { duration: 200 } }
         }
@@ -62,7 +71,7 @@ Item {
             anchors.verticalCenter: arrow.verticalCenter
             text: "Pull to refresh...    " //change to text from function
             font.pointSize: 20
-            color: "#999999"
+            color: "black"
         }
     }
 
