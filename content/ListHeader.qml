@@ -67,6 +67,7 @@ Rectangle {
             anchors.verticalCenter: arrow.verticalCenter
             text: "Pull to refresh...    " //change to text from function
             font.pointSize: 20
+            font.family: "Arial"
             color: "black"
         }
     }

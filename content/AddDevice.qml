@@ -18,12 +18,14 @@ Column{
             id: sensorid
             text: "Sensor Name: "
             font.pointSize: 16
+            font.family: "Arial"
         }
 
         TextField{
             id: sensor_id
             text: "Device 1"
             font.pointSize: 16
+            font.family: "Arial"
         }
     }
 
@@ -33,6 +35,7 @@ Column{
         Text{
             text: "Assigned Room: "
             font.pointSize: 16
+            font.family: "Arial"
         }
 
         TextField{
@@ -40,6 +43,7 @@ Column{
             text: "Room"
             validator: IntValidator{bottom: 1; top: 12}
             font.pointSize: 16
+            font.family: "Arial"
         }
     }
 
@@ -52,6 +56,7 @@ Column{
             id: text_id
             text: "Add New"
             font.pointSize: 14
+            font.family: "Arial"
             anchors.centerIn: parent
         }
         MouseArea{

@@ -45,6 +45,7 @@ Item{
                 text: "Menu"
                 anchors.left: ic_drawer.right
                 font.pointSize: 20
+                font.family: "Arial"
                 anchors.verticalCenter: parent.verticalCenter
             }
 

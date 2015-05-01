@@ -16,7 +16,7 @@ Item {
         id: day_schedule
         width: container.ListView.view ? container.ListView.view.width : 0
         height: day.height + day.y + schedules.height //+ inputstuff.height//children.height
-        border.color: "blue"
+        border.color: "#8b8989"
         border.width: 5
         property var sched: model.schedule
 
@@ -25,7 +25,8 @@ Item {
             text: container.int2day(model.day)
             anchors.horizontalCenter: parent.horizontalCenter
             y: 10
-            font.pointSize: 36
+            font.pointSize: 20
+            font.family: "Arial"
             font.bold: true
             color: "black"
             //Component.onCompleted: console.log(day.text)
@@ -42,6 +43,7 @@ Item {
                     text: model.sensor_id + ":\t" + container.int2time(model.starttime)
                           + " -- " + container.int2time(model.endtime)
                     font.pointSize: 14
+                    font.family: "Arial"
                     //Component.onCompleted: console.log(text)
                 }
             }

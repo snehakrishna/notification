@@ -122,7 +122,7 @@ Rectangle {
             main.counter_temp = idx.length
 
             if (main.counter == 0){
-                var newObject = Qt.createQmlObject('import QtQuick 2.0; Text {color: "red"; font.pointsize: 12; text: "No internet connection"}',
+                var newObject = Qt.createQmlObject('import QtQuick 2.0; Text {color: "red"; font.family: "Arial"; font.pointsize: 12; text: "No internet connection"}',
                                                    parentItem, "dynamicSnippet1");
             }
         }

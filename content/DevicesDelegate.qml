@@ -102,7 +102,7 @@ Item {
         front: Rectangle {
             anchors.centerIn: parent
             anchors.fill: parent
-            border.color: "blue"
+            border.color: "#8b8989"
             border.width: 5
 
             MouseArea {
@@ -121,6 +121,7 @@ Item {
                 anchors.bottom: parent.verticalCenter
                 x: 10; y: 9
                 font.pointSize: 18
+                font.family: "Arial"
                 font.bold: true
                 color: "black"
             }
@@ -128,6 +129,7 @@ Item {
                 id: status
                 text: model.state
                 font.pointSize: 30
+                font.family: "Arial"
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     top: device.bottom
@@ -152,6 +154,8 @@ Item {
             id: power_command2
             anchors.centerIn: parent
             anchors.fill: parent
+            border.color: "#8b8989"
+            border.width: 5
             EnergyGraph {
                 anchors.centerIn: parent
                 anchors.fill: parent

@@ -25,6 +25,7 @@ Rectangle {
             Text{
                 id: box
                 font.pointSize: 20
+                font.family: "Arial"
                 text: "Devices"
             }
 
@@ -47,6 +48,7 @@ Rectangle {
             Text{
                 id: box2
                 font.pointSize: 20
+                font.family: "Arial"
                 text: "Rooms"
             }
 
@@ -70,6 +72,7 @@ Rectangle {
                 id:box3
                 font.pointSize: 20
                 text: "Schedule"
+                font.family: "Arial"
             }
 
             MouseArea{
@@ -92,6 +95,7 @@ Rectangle {
                 id: box4
                 font.pointSize: 20
                 text: "Energy Use"
+                font.family: "Arial"
             }
 
             MouseArea{
@@ -114,6 +118,7 @@ Rectangle {
             Text{
                 id: box5
                 font.pointSize: 20
+                font.family: "Arial"
                 text: "Settings"
             }
 

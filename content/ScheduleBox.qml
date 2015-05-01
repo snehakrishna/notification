@@ -18,12 +18,14 @@ Column{
             id: sensorid
             text: "Sensor ID: "
             font.pointSize: 16
+            font.family: "Arial"
         }
 
         TextField{
             id: sensor_id
             text: "Device 1"
             font.pointSize: 16
+            font.family: "Arial"
         }
     }
 
@@ -33,6 +35,7 @@ Column{
         Text{
             text: "Start Time: "
             font.pointSize: 16
+            font.family: "Arial"
         }
 
         TextField{
@@ -40,17 +43,20 @@ Column{
             text: "Hour"
             validator: IntValidator{bottom: 1; top: 12}
             font.pointSize: 16
+            font.family: "Arial"
         }
         Text{
             id: starttime
             text: ":"
             font.pointSize: 16
+            font.family: "Arial"
         }
         TextField{
             id: startmin
             text: "Min"
             validator: IntValidator{bottom: 0; top: 59}
             font.pointSize: 16
+            font.family: "Arial"
         }
         ComboBox{
             id: ampm1
@@ -71,6 +77,7 @@ Column{
         Text{
             text: "End Time: "
             font.pointSize: 16
+            font.family: "Arial"
         }
 
         TextField{
@@ -78,17 +85,20 @@ Column{
             text: "Hour"
             validator: IntValidator{bottom: 1; top: 12}
             font.pointSize: 16
+            font.family: "Arial"
         }
         Text{
             id: endtime
             text: ":"
             font.pointSize: 16
+            font.family: "Arial"
         }
         TextField{
             id: endmin
             text: "Min"
             validator: IntValidator{bottom: 0; top: 59}
             font.pointSize: 16
+            font.family: "Arial"
         }
         ComboBox{
             id: ampm2
@@ -112,6 +122,7 @@ Column{
             id: text_id
             text: "Add New"
             font.pointSize: 14
+            font.family: "Arial"
             anchors.centerIn: parent
         }
         MouseArea{

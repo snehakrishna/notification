@@ -17,6 +17,7 @@ Item{
             id: box
             width: parent.width
             font.pointSize: 20
+            font.family: "Arial"
             text: boxText
         }
 
