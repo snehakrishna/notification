@@ -5,8 +5,8 @@ import EnergyGraph 1.0
 
 Rectangle {
     id: main
-    width: 375//screenWidth
-    height: 667//screenHeight
+    width: screenWidth
+    height: screenHeight
 
     state: "DEVICE"
 

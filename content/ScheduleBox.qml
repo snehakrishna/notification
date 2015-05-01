@@ -1,8 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
 
 Column{
-    spacing: 5
+    spacing: 15
 
     Rectangle{
         id: spacing
@@ -29,7 +30,7 @@ Column{
         }
     }
 
-    Row{
+    Column{
         anchors.horizontalCenter: spacing.horizontalCenter
         spacing: 5
         Text{
@@ -37,41 +38,42 @@ Column{
             font.pointSize: 16
             font.family: "Arial"
         }
-
-        TextField{
-            id: starthour
-            text: "Hour"
-            validator: IntValidator{bottom: 1; top: 12}
-            font.pointSize: 16
-            font.family: "Arial"
-        }
-        Text{
-            id: starttime
-            text: ":"
-            font.pointSize: 16
-            font.family: "Arial"
-        }
-        TextField{
-            id: startmin
-            text: "Min"
-            validator: IntValidator{bottom: 0; top: 59}
-            font.pointSize: 16
-            font.family: "Arial"
+        Row{
+            TextField{
+                id: starthour
+                text: "Hour"
+                validator: IntValidator{bottom: 1; top: 12}
+                font.pointSize: 16
+                font.family: "Arial"
+            }
+            Text{
+                id: starttime
+                text: ":"
+                font.pointSize: 16
+                font.family: "Arial"
+            }
+            TextField{
+                id: startmin
+                text: "Min"
+                validator: IntValidator{bottom: 0; top: 59}
+                font.pointSize: 16
+                font.family: "Arial"
+            }
         }
         ComboBox{
             id: ampm1
-            width: 200
+            width: 200//devicewidth/2
             model: ["AM", "PM"]
         }
 
         ComboBox{
             id: startday
-            width: 200
+            width: 200//devicewidth/2
             model: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         }
     }
 
-    Row{
+    Column{
         anchors.horizontalCenter: spacing.horizontalCenter
         spacing: 5
         Text{
@@ -79,36 +81,37 @@ Column{
             font.pointSize: 16
             font.family: "Arial"
         }
-
-        TextField{
-            id: endhour
-            text: "Hour"
-            validator: IntValidator{bottom: 1; top: 12}
-            font.pointSize: 16
-            font.family: "Arial"
-        }
-        Text{
-            id: endtime
-            text: ":"
-            font.pointSize: 16
-            font.family: "Arial"
-        }
-        TextField{
-            id: endmin
-            text: "Min"
-            validator: IntValidator{bottom: 0; top: 59}
-            font.pointSize: 16
-            font.family: "Arial"
+        Row{
+            TextField{
+                id: endhour
+                text: "Hour"
+                validator: IntValidator{bottom: 1; top: 12}
+                font.pointSize: 16
+                font.family: "Arial"
+            }
+            Text{
+                id: endtime
+                text: ":"
+                font.pointSize: 16
+                font.family: "Arial"
+            }
+            TextField{
+                id: endmin
+                text: "Min"
+                validator: IntValidator{bottom: 0; top: 59}
+                font.pointSize: 16
+                font.family: "Arial"
+            }
         }
         ComboBox{
             id: ampm2
-            width: 200
+            width: 200 //devicewidth/2
             model: ["AM", "PM"]
         }
 
         ComboBox{
             id: endday
-            width: 200
+            width: 200 //devicewidth/2
             model: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         }
     }

@@ -139,11 +139,11 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         if (qsTr(status.text) == qsTr("on")) {
-                                   power_command("off")
-                               }
-                               else{
-                                   power_command("on")
-                               }
+                            power_command("off")
+                        }
+                        else{
+                            power_command("on")
+                        }
                         container.send()
                     }
                 }
@@ -156,12 +156,18 @@ Item {
             anchors.fill: parent
             border.color: "#8b8989"
             border.width: 5
-            EnergyGraph {
+            Rectangle{
                 anchors.centerIn: parent
-                anchors.fill: parent
-                Component.onCompleted: {
-                    initEnergyGraph(ip_addr, device.text);
-                    setTime(6);
+                height: parent.height-10
+                width: parent.width-10
+                color: "transparent"
+                EnergyGraph {
+                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    Component.onCompleted: {
+                        initEnergyGraph(ip_addr, device.text);
+                        setTime(6);
+                    }
                 }
             }
 
