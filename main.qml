@@ -12,7 +12,7 @@ Rectangle {
 
     property int devicewidth: width
     property int deviceheight: height
-    property string ip_addr: "http://10.1.5.110:8080"
+    property string ip_addr: "http://10.1.6.56:8080"
 
     property int inAnimDur: 250
     property int counter: 0
@@ -184,7 +184,7 @@ Rectangle {
             }
 
             //header: headercomponent
-            footer: footercomponent
+            footer: AddDevice { }//footercomponent
 
             onDragEnded: {
                 if (header.refresh) {
@@ -206,10 +206,10 @@ Rectangle {
             //                z: mainListView.footerItem.z
             //            }
             //        }
-            Component{
-                id: footercomponent
-                AddDevice {}
-            }
+//            Component{
+//                id: footercomponent
+//                AddDevice { }
+//            }
 
             function mainlistview_clear() {
                 var counter = main.counter

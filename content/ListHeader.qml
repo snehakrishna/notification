@@ -45,12 +45,8 @@ Rectangle {
     height: parent.height
     width: parent.width
     property bool refresh: state == "pulled" ? true : false
-color: "#cdc9c9"
-//    Rectangle{
-//        color: "#cdc9c9"
-//        height: parent.height-60
-//        width: parent.width
-//    }
+    color: "#cdc9c9"
+
 
     Row {
         spacing: 6

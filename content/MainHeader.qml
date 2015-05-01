@@ -10,6 +10,7 @@ Item{
     Component.onCompleted: console.log("in MainHeader ", deviceheight)
 
     Rectangle {
+        id: titlerect
         width: devicewidth
         height: deviceheight/10
         color: '#eee9e9'
@@ -25,28 +26,30 @@ Item{
 
         Rectangle{
             id: drawer
-            width: parent.height
+            width: parent.height + menu.width
             height: parent.height
             color: '#eee9e9'
             anchors.left: parent.left
 
             Image{
                 id: ic_drawer
-                width: parent.width
+                width: parent.height
                 height: parent.height
                 fillMode: Image.PreserveAspectFit
                 source: "../images/ic_menu_black_48dp.png"
+                anchors.left: parent.left
             }
 
             Text{
                 id: menu
                 text: "Menu"
-                anchors.left: drawer.right
+                anchors.left: ic_drawer.right
                 font.pointSize: 20
                 anchors.verticalCenter: parent.verticalCenter
             }
 
             MouseArea{
+                id: navbar
                 anchors.left: ic_drawer.left
                 anchors.right: menu.right
                 anchors.top: drawer.top
@@ -64,6 +67,7 @@ Item{
     }
 
     Menu{
+        anchors.top: titlerect.bottom
         anchors.right: hide_menu.left
         id: menubar
         onActivated: {
@@ -83,11 +87,14 @@ Item{
         State {
             name: "DRAWER_CLOSED"
             PropertyChanges { target: hide_menu; x: - hide_menu.width}
+            PropertyChanges { target: drawer; color: '#eee9e9'}
         },
         State {
             name: "DRAWER_OPEN"
             PropertyChanges { target: hide_menu; x: menubar.width}
+            //PropertyChanges { target: hide_menu; z: 3}
             PropertyChanges { target: screen; height: menubar.height}
+            PropertyChanges { target: drawer; color: "#cdc9c9"}
         }
     ]
 

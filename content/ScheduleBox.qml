@@ -2,8 +2,17 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 
 Column{
-    //anchors.top: schedules.bottom
+    spacing: 5
+
+    Rectangle{
+        id: spacing
+        height: 10
+        width: devicewidth
+        color: 'transparent'
+    }
+
     Row{
+        anchors.horizontalCenter: spacing.horizontalCenter
         spacing: 5
         Text{
             id: sensorid
@@ -19,6 +28,7 @@ Column{
     }
 
     Row{
+        anchors.horizontalCenter: spacing.horizontalCenter
         spacing: 5
         Text{
             text: "Start Time: "
@@ -56,6 +66,7 @@ Column{
     }
 
     Row{
+        anchors.horizontalCenter: spacing.horizontalCenter
         spacing: 5
         Text{
             text: "End Time: "
@@ -93,13 +104,15 @@ Column{
     }
 
     Rectangle{
-        color: 'lightgrey'
+        anchors.horizontalCenter: spacing.horizontalCenter
+        color: '#68D5ED'
         height: text_id.height + 15
         width: text_id.width + 15
         Text{
             id: text_id
             text: "Add New"
             font.pointSize: 14
+            anchors.centerIn: parent
         }
         MouseArea{
             anchors.fill: parent

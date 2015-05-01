@@ -3,25 +3,27 @@ import QtQuick 2.0
 
 Rectangle {
     id: root
-    width: 3*devicewidth/4
-    height: deviceheight
+    width: childrenRect.width //3*devicewidth/4
+    height: deviceheight - navbar.height
+    color: "#eee9e9"
+//cdc9c9
     signal activated(string option)
 
     Column{
         anchors.bottom: parent.bottom
         spacing: 5
-        width: parent.width
+        width: childrenRect.width//parent.width
 
         Rectangle{
             id: device
-            width: parent.width
+            width: Math.max(box.width, box2.width, box3.width, box4.width, box5.width, navbar.width)
             height: box.height + 15
-            border.color: "black"
+            border.color: "#eee9e9"
             border.width: 5
+            color: "#eee9e9"
 
             Text{
                 id: box
-                width: parent.width
                 font.pointSize: 20
                 text: "Devices"
             }
@@ -36,14 +38,14 @@ Rectangle {
         }
         Rectangle{
             id: room
-            width: parent.width
+            width: Math.max(box.width, box2.width, box3.width, box4.width, box5.width, navbar.width)
             height: box2.height + 15
-            border.color: "black"
+            border.color: "#eee9e9"
             border.width: 5
+            color: "#eee9e9"
 
             Text{
                 id: box2
-                width: parent.width
                 font.pointSize: 20
                 text: "Rooms"
             }
@@ -58,14 +60,14 @@ Rectangle {
         }
         Rectangle{
             id: schedule
-            width: parent.width
+            width: Math.max(box.width, box2.width, box3.width, box4.width, box5.width, navbar.width)
             height: box3.height + 15
-            border.color: "black"
+            border.color: "#eee9e9"
             border.width: 5
+            color: "#eee9e9"
 
             Text{
                 id:box3
-                width: parent.width
                 font.pointSize: 20
                 text: "Schedule"
             }
@@ -80,14 +82,14 @@ Rectangle {
         }
         Rectangle{
             id: energy
-            width: parent.width
+            width: Math.max(box.width, box2.width, box3.width, box4.width, box5.width, navbar.width)
             height: box4.height + 15
-            border.color: "black"
+            border.color: "#eee9e9"
             border.width: 5
+            color: "#eee9e9"
 
             Text{
                 id: box4
-                width: parent.width
                 font.pointSize: 20
                 text: "Energy Use"
             }
@@ -99,26 +101,27 @@ Rectangle {
                     root.activated("energy")
                 }
             }
-            Rectangle{
-                id: settings
-                width: parent.width
-                height: box5.height + 15
-                border.color: "black"
-                border.width: 5
+        }
 
-                Text{
-                    id: box5
-                    width: parent.width
-                    font.pointSize: 20
-                    text: "Settings"
-                }
+        Rectangle{
+            id: settings
+            width: Math.max(box.width, box2.width, box3.width, box4.width, box5.width, navbar.width)
+            height: box5.height + 15
+            border.color: "#eee9e9"
+            border.width: 5
+            color: "#eee9e9"
 
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        main.state = "SETTINGS"
-                        root.activated("settings")
-                    }
+            Text{
+                id: box5
+                font.pointSize: 20
+                text: "Settings"
+            }
+
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    main.state = "SETTINGS"
+                    root.activated("settings")
                 }
             }
         }
