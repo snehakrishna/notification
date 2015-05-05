@@ -2,93 +2,89 @@ import QtQuick 2.0
 
 Item{
     id: screen
-    signal activate(string option)
-    state: "DRAWER_CLOSED"
+    //state: "DRAWER_CLOSED"
     property string disptitle
+    height: deviceheight/10
+    width: devicewidth
+    property int navbarwidth: navbar.width
+    property string menucolor
+    property string drawercolor
 
     Rectangle {
-        z: 0
+        id: titlerect
         width: devicewidth
         height: deviceheight/10
-        color: '#00FF00'
+        color: '#eee9e9'
 
         Text{
             id: title
             text: disptitle
             font.pointSize: 20
+            font.family: "Arial"
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
         Rectangle{
             id: drawer
-            width: parent.height
+            width: parent.height + menu.width
             height: parent.height
-            color: '#00FF00'
+            color: drawercolor //'#eee9e9'
             anchors.left: parent.left
 
             Image{
                 id: ic_drawer
-                width: parent.width
+                width: parent.height
                 height: parent.height
                 fillMode: Image.PreserveAspectFit
-                source: "../images/drawer/ic_drawer.png"
+                source: "../images/ic_menu_black_48dp.png"
+                anchors.left: parent.left
             }
 
             Text{
                 id: menu
-                text: "MENU"
-                anchors.left: drawer.right
+                text: "Menu"
+                color: menucolor//'#eee9e9'
+                anchors.left: ic_drawer.right
                 font.pointSize: 20
+                font.family: "Arial"
                 anchors.verticalCenter: parent.verticalCenter
             }
 
             MouseArea{
+                id: navbar
                 anchors.left: ic_drawer.left
                 anchors.right: menu.right
                 anchors.top: drawer.top
                 anchors.bottom: drawer.bottom
                 onClicked:{
-                    if (screen.state == "DRAWER_CLOSED"){
-                        screen.state = "DRAWER_OPEN"
+                    if (menubar.menubarstate == "DRAWER_CLOSED"){
+                        menubar.menubarstate = "DRAWER_OPEN"
                     }
-                    else if (screen.state == "DRAWER_OPEN"){
-                        screen.state = "DRAWER_CLOSED"
+                    else if (menubar.menubarstate == "DRAWER_OPEN"){
+                        menubar.menubarstate = "DRAWER_CLOSED"
                     }
                 }
             }
         }
     }
 
-    Menu{
-        z: 1
-        anchors.right: hide_menu.left
-        id: menubar
-        onActivated: {
-            //screen.activate(option)
-            screen.state = "DRAWER_CLOSED"
-            //console.log(option)
-        }
-    }
-    MouseArea{
-        z: 1
-        id: hide_menu
-        height: menubar.height
-        width: devicewidth - menubar.width
-        x: -hide_menu.width
-        onClicked: screen.state = 'DRAWER_CLOSED'
-    }
-
-    states: [
-        State {
-            name: "DRAWER_CLOSED"
-            PropertyChanges { target: hide_menu; x: - hide_menu.width}
-        },
-        State {
-            name: "DRAWER_OPEN"
-            PropertyChanges { target: hide_menu; x: menubar.width}
-        }
-    ]
+//    states: [
+//        State {
+//            name: "DRAWER_CLOSED"
+//            PropertyChanges { target: hide_menu; x: - hide_menu.width}
+//            PropertyChanges { target: drawer; color: '#eee9e9'}
+//            PropertyChanges { target: menu; color: '#eee9e9'}
+//        },
+//        State {
+//            name: "DRAWER_OPEN"
+//            PropertyChanges { target: hide_menu; x: menubar.width}
+//            //PropertyChanges { target: hide_menu; z: 3}
+//            PropertyChanges { target: screen; height: menubar.height}
+//            PropertyChanges { target: drawer; color: "#cdc9c9"}
+//            PropertyChanges { target: menu; color: "#cdc9c9"}
+//        }
+//    ]
 
     transitions: [
         Transition {
@@ -96,4 +92,5 @@ Item{
             NumberAnimation { target: menubar; properties: "x"; duration: 500; easing.type: Easing.OutExpo }
         }
     ]
+
 }

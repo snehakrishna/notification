@@ -102,7 +102,7 @@ Item {
         front: Rectangle {
             anchors.centerIn: parent
             anchors.fill: parent
-            border.color: "blue"
+            border.color: "#8b8989"
             border.width: 5
 
             MouseArea {
@@ -121,6 +121,7 @@ Item {
                 anchors.bottom: parent.verticalCenter
                 x: 10; y: 9
                 font.pointSize: 18
+                font.family: "Arial"
                 font.bold: true
                 color: "black"
             }
@@ -128,6 +129,7 @@ Item {
                 id: status
                 text: model.state
                 font.pointSize: 30
+                font.family: "Arial"
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     top: device.bottom
@@ -137,11 +139,11 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         if (qsTr(status.text) == qsTr("on")) {
-                                   power_command("off")
-                               }
-                               else{
-                                   power_command("on")
-                               }
+                            power_command("off")
+                        }
+                        else{
+                            power_command("on")
+                        }
                         container.send()
                     }
                 }
@@ -152,12 +154,20 @@ Item {
             id: power_command2
             anchors.centerIn: parent
             anchors.fill: parent
-            EnergyGraph {
+            border.color: "#8b8989"
+            border.width: 5
+            Rectangle{
                 anchors.centerIn: parent
-                anchors.fill: parent
-                Component.onCompleted: {
-                    initEnergyGraph(ip_addr, device.text);
-                    setTime(6);
+                height: parent.height-10
+                width: parent.width-10
+                color: "transparent"
+                EnergyGraph {
+                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    Component.onCompleted: {
+                        initEnergyGraph(ip_addr, device.text);
+                        setTime(6);
+                    }
                 }
             }
 

@@ -19,5 +19,7 @@
         <file>content/MenuButton.qml</file>
         <file>content/ScheduleBox.qml</file>
         <file>content/AddDevice.qml</file>
+        <file>images/ic_menu_black_48dp.png</file>
+        <file>images/ic_refresh_black_48dp.png</file>
     </qresource>
 </RCC>

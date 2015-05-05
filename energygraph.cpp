@@ -46,6 +46,7 @@ void EnergyGraph::setTime(int months) {
     int currentTime = QDateTime::currentDateTime().toTime_t();
     int monthStart = QDateTime::currentDateTime().addMonths(-1*months).toTime_t();
     mCustomPlot->xAxis->setRange(monthStart, currentTime);
+    mCustomPlot->xAxis->setTickStep((currentTime-monthStart)/20);
     mCustomPlot->yAxis->rescale();
     mCustomPlot->replot();
 }
@@ -143,11 +144,16 @@ void EnergyGraph::setupQuadraticDemo( QCustomPlot* customPlot )
     customPlot->graph( 1 )->setSelectedPen( QPen( Qt::blue, 2 ) );
     customPlot->graph( 1 )->setData( lx, ly );
 
+    double xmin = -1;
+    double xmax = 1;
+
     // give the axes some labels:
     customPlot->xAxis->setLabel( "x" );
     customPlot->yAxis->setLabel( "y" );
     // set axes ranges, so we see all data:
-    customPlot->xAxis->setRange( -1, 1 );
+    customPlot->xAxis->setRange( xmin, xmax );
+    customPlot->xAxis->setAutoTickStep(false);
+    customPlot->xAxis->setTickStep((xmax - xmin)/20);
     customPlot->yAxis->setRange( -1, 1 );
 //    customPlot ->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );
 }
