@@ -364,16 +364,15 @@ Rectangle {
             PropertyChanges { target: calendarListView; visible: false }
             PropertyChanges { target: settings; visible: true }
             PropertyChanges { target: mainheader; disptitle: "Settings"}
+        },
+        State {
+            name: "ROOM"
+            PropertyChanges { target: devicesModel; visible: true }
+            PropertyChanges { target: mainListView; visible: false }
+            PropertyChanges { target: scheduleModel; visible: true }
+            PropertyChanges { target: calendarListView; visible: false }
+            PropertyChanges { target: settings; visible: false }
+            PropertyChanges { target: mainheader; disptitle: "Settings"}
         }
-
-        //        ,
-        //        State {
-        //            name: "ROOM"; when: mainListView.contentY >= -120
-        //            PropertyChanges { target: arrow; rotation: 180 }
-        //        },
-        //        State {
-        //            name: "ENERGY"; when: mainListView.contentY >= -120
-        //            PropertyChanges { target: arrow; rotation: 180 }
-        //        },
     ]
 }
