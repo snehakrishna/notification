@@ -12,7 +12,7 @@ Rectangle {
 
     property int devicewidth: width
     property int deviceheight: height
-    property string ip_addr: "http://10.1.6.56:8080"
+    property string ip_addr: "http://10.0.0.21:8080"
 
     property int inAnimDur: 250
     property int counter: 0
@@ -44,8 +44,8 @@ Rectangle {
     {
         for (var j = 0; j < ids.length; j++)
             if (ids[j] === id)
-                return 1
-        return 0
+                return 1;
+        return 0;
     }
 
     function dayInModel(day)
@@ -130,10 +130,10 @@ Rectangle {
         id: devicesModel
         onIsLoaded: {
             //console.debug("Reload")
-            idx = new Array()
-            sensor_ids = new Array()
-            sensor_rooms = new Array()
-            sensor_states = new Array()
+            idx = new Array();
+            sensor_ids = new Array();
+            sensor_rooms = new Array();
+            sensor_states = new Array();
             for (var i = 0; i < devicesModel.model.count; i++) {
                 var id = devicesModel.model.get(i).id
                 var room = devicesModel.model.get(i).room
@@ -145,6 +145,7 @@ Rectangle {
                     idx.push(i)
                 }
             }
+            console.log("sensor_rooms: " + sensor_rooms);
             //console.debug(sensor_ids)
             //console.debug(idx.length + " new device")
             main.counter = idx.length
@@ -182,7 +183,7 @@ Rectangle {
             roomx = new Array()
             for (var i = 0; i < roomModel.model.count; i++){
                 var room = roomModel.model.get(i).room
-                if (!roomInmodel(room)){
+                if (!roomInModel(room)){
                     roomx.push(i)
                 }
             }
@@ -249,7 +250,8 @@ Rectangle {
                 var id = devicesModel.model.get(idx[counter]).id
                 var item = devicesModel.model.get(counter)
                 mainListView.add( { "sensor_id": item.sensor_id,
-                                     "state": item.state});
+                                     "state": item.state,
+                                      "room": item.room});
                 ids.push(id)
             }
 

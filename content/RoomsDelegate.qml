@@ -70,8 +70,8 @@ Item {
         property bool flipped: false
 
         anchors.bottom: parent.bottom
-        width: container.GridView.view.cellWidth
-        height: container.GridView.view.cellHeight
+        width: devicewidth
+        height: childrenRect.height
 
         transform: Rotation {
             id: rotation
@@ -159,7 +159,7 @@ Item {
             Column{
                 id: devices
                 spacing: 10
-                anchors.top: day.bottom
+                anchors.top: room.bottom
                 Repeater{
                     model: devicemodel2.devs
                     //Component.onCompleted: console.log(JSON.stringify(day_schedule.sched))
