@@ -12,6 +12,7 @@ Item {
     ListModel { id: devices }
 
     function reload() {
+        devices.clear()
         var req = new XMLHttpRequest;
         req.open("GET", ip_addr + "/sensors", true);
         req.setRequestHeader("content-type", "application/json");
