@@ -2,14 +2,14 @@ import QtQuick 2.0
 
 Item {
     id: wrapper
-    property variant model: rooms
+    property variant model: devices
 
     property int status: XMLHttpRequest.UNSENT
     property bool isLoading: status === XMLHttpRequest.LOADING
     property bool wasLoading: false
     signal isLoaded
 
-    ListModel { id: rooms }
+    ListModel { id: devices }
 
     function reload() {
         var req = new XMLHttpRequest;
