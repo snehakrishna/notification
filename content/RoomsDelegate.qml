@@ -31,7 +31,7 @@ Item {
 
         anchors.bottom: parent.bottom
         width: devicewidth
-        height: Math.max(frontstuff.height, devicemodel2.height)
+        height: childrenRect.height
 
         transform: Rotation {
             id: rotation
@@ -61,9 +61,8 @@ Item {
         }
 
         front: Rectangle {
-            id: frontstuff
             anchors.centerIn: parent
-            height: mouseArea.height+ roomname.height + 10
+            height: childrenRect.height + 10
             border.color: "#8b8989"
             border.width: 5
 
@@ -101,7 +100,8 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    flipBar.flipped = !flipBar.flipped
+                    flipBar.flipDown()
+                    flipBar.flipped = false
                 }
             }
             Text {
