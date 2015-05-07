@@ -79,7 +79,6 @@ Item {
                 id: roomname
                 anchors.centerIn: parent
                 text: model.room
-                anchors.
                 x: 10; y: 9
                 font.pointSize: 20
                 font.family: "Arial"
