@@ -188,13 +188,14 @@ Item {
         req.responseType = "json"
         req.onreadystatechange = function() {
             if (req.readyState === req.DONE) {
+                main.reload()
+                console.log("reloading after device on/off")
                 try {
                     var object = JSON.parse(req.responseText);
                     if (state === "on") {
                         optimizationCheck(object);
                     }
                     console.log("finished");
-                    main.reload()
                 } catch (e) {
                     console.log(e + "Could not reach network");
                 }
