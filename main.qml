@@ -12,7 +12,7 @@ Rectangle {
 
     property int devicewidth: width
     property int deviceheight: height
-    property string ip_addr: "http://10.0.0.21:8080"
+    property string ip_addr: "http://10.1.5.40:8080"
 
     property int inAnimDur: 250
     property int counter: 0
@@ -151,10 +151,10 @@ Rectangle {
             main.counter = idx.length
             main.counter_temp = idx.length
 
-            if (main.counter == 0){
-                var newObject = Qt.createQmlObject('import QtQuick 2.0; Text {color: "red"; font.family: "Arial"; font.pointsize: 12; text: "No internet connection"}',
-                                                   parentItem, "dynamicSnippet1");
-            }
+//            if (main.counter == 0){
+//                var newObject = Qt.createQmlObject('import QtQuick 2.0; Text {color: "red"; font.family: "Arial"; font.pointsize: 12; text: "No internet connection"}',
+//                                                   parentItem, "dynamicSnippet1");
+//            }
         }
     }
 
