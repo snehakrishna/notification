@@ -194,6 +194,7 @@ Item {
                         optimizationCheck(object);
                     }
                     console.log("finished");
+                    main.reload()
                 } catch (e) {
                     console.log(e + "Could not reach network");
                 }
@@ -202,7 +203,6 @@ Item {
 
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
-        main.reload()
     }
 
     function optimizationCheck(obj) {
