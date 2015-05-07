@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: wrapper
+    id: rooms_wrapper
     property variant model: rooms
 
     property int status: XMLHttpRequest.UNSENT
@@ -9,42 +9,38 @@ Item {
     property bool wasLoading: false
     signal isLoaded
 
+    property var rooms_array
+    property var rooms_list
+
     ListModel { id: rooms }
-    function encodePhrase(x) { return encodeURIComponent(x); }
 
     function reload() {
         rooms.clear()
 
-        var req = new XMLHttpRequest;
-        req.open("GET", ip_addr + "/rooms", true);
-        req.setRequestHeader("content-type", "application/json");
-        req.setRequestHeader("accept", "application/json");
-        req.responseType = "json"
-        //console.debug("opened xmlHttpRequest")
-        req.onreadystatechange = function() {
-            //console.debug("onreadystatechange")
-            status = req.readyState;
-            if (status === XMLHttpRequest.DONE) {
-                try {
-                    var objectArray = JSON.parse(req.responseText);
-                } catch (e) {
-                    console.log("network not available");
-                    return;
-                }
-                if (objectArray.errors !== undefined)
-                    console.log("Error fetching tweets: " + objectArray.errors[0].message)
-                else {
-                    for (var key in objectArray) {
-                        var jsonObject = objectArray[key];
-                        rooms.append(jsonObject);
-                    }
-                }
-                if (wasLoading == true)
-                    wrapper.isLoaded()
-                scheduleModel.reload()
-            }
-            wasLoading = (status === XMLHttpRequest.LOADING);
+        //find unique rooms and number of rooms r
+        var rooms_list = new Array()
+        for (var i = 0; i < main.sensor_rooms.length; i++){
+            if (main.sensor_rooms(i) in rooms_list)
+                continue
+            rooms_list.push(main.sensor_rooms(i))
         }
-        req.send();
+
+        //create array (rooms_array) with length of r
+        //sort sensors into each room using an object style
+        rooms_array = new Array(rooms_list.length)
+        for (var i = 0; i < rooms_list.length; i++){
+            rooms_array[i] = new Array()
+            for (var j = 0; j < main.sensor_rooms.length; j++){
+                if (main.sensor_rooms[j] == rooms_list[i]){
+                    rooms_array[i].push({"name": sensor_ids[j]})
+                }
+            }
+            rooms.append({"room": rooms_list[i], "devices": rooms_array[i]})
+            rooms_wrapper.isLoaded()
+        }
+
+        //build device models for each room
+        //load device models for each room
+
     }
 }

@@ -18,8 +18,6 @@ Item {
     function encodePhrase(x) { return encodeURIComponent(x); }
 
     function reload() {
-        //console.log("in schedule reload")
-        //console.log(main.sensor_ids)
         schedule.clear()
         sched_wrapper.sensor_array = new Array()
         var reqs = new Array()

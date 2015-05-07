@@ -2,19 +2,16 @@ import QtQuick 2.0
 
 Item {
     id: wrapper
-    property variant model: devices
+    property variant model: rooms
 
     property int status: XMLHttpRequest.UNSENT
     property bool isLoading: status === XMLHttpRequest.LOADING
     property bool wasLoading: false
     signal isLoaded
 
-    ListModel { id: devices }
-    function encodePhrase(x) { return encodeURIComponent(x); }
+    ListModel { id: rooms }
 
     function reload() {
-        devices.clear()
-
         var req = new XMLHttpRequest;
         req.open("GET", ip_addr + "/sensors", true);
         req.setRequestHeader("content-type", "application/json");
@@ -42,6 +39,7 @@ Item {
                 if (wasLoading == true)
                     wrapper.isLoaded()
                 scheduleModel.reload()
+                roomModel.reload()
             }
             wasLoading = (status === XMLHttpRequest.LOADING);
         }

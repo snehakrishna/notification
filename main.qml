@@ -19,16 +19,23 @@ Rectangle {
     property int counter_temp: 0
     property int sched_count: 0
     property int sched_count_temp: 0
+    property int room_count: 0
+    property int room_count_temp: 0
     property alias isLoading: devicesModel.isLoading
     property var idx
     property var ids
     property var sensor_ids
+    property var sensor_rooms
+    property var sensor_states
     property var days
     property var dayx
+    property var rooms
+    property var roomx
 
     Component.onCompleted: {
         ids = new Array()
         days = new Array(7)
+        rooms = new Array()
         timer.start()
         devicesModel.reload()
     }
@@ -49,6 +56,14 @@ Rectangle {
         return 0
     }
 
+    function roomInModel(room)
+    {
+        for (var j = 0; j < rooms.length; j++)
+            if (rooms[j] === room)
+                return 1
+        return 0
+    }
+
     function reload() {
         clear()
         timer.start()
@@ -59,8 +74,10 @@ Rectangle {
     function clear(){
         ids = new Array()
         days = new Array(7)
+        rooms = new Array()
         mainListView.model.clear()
         calendarListView.model.clear()
+        roomView.model.clear()
     }
 
     function add(obj){
@@ -70,12 +87,15 @@ Rectangle {
     function sched_add(obj){
         calendarListView.model.insert(0,obj)
     }
+    function room_add(obj){
+        roomView.model.insert(0,obj)
+    }
 
     Timer {
         id: timer
         interval: 500; running: main.counter; repeat: true
         onTriggered: {
-            if (main.counter_temp == 0 && main.sched_count_temp == 0){
+            if (main.counter_temp == 0 && main.sched_count_temp == 0 && main.room_count_temp == 0){
                 timer.stop()
                 return
             }
@@ -96,6 +116,13 @@ Rectangle {
                                    "schedule": sched.schedule})
                 days.push(day)
             }
+            if (main.room_count_temp > 0){
+                main.room_count_temp--;
+                var room_name = roomModel.model.get(roomx[main.room_count_temp]).room
+                var all_info = roomModel.model.get(main.room_count_temp)
+                main.room_add({"room": all_info.room, "devices": all_info.devices})
+                rooms.push(room_name)
+            }
         }
     }
 
@@ -105,10 +132,16 @@ Rectangle {
             //console.debug("Reload")
             idx = new Array()
             sensor_ids = new Array()
+            sensor_rooms = new Array()
+            sensor_states = new Array()
             for (var i = 0; i < devicesModel.model.count; i++) {
                 var id = devicesModel.model.get(i).id
+                var room = devicesModel.model.get(i).room
+                console.log(room)
                 if (!idInModel(id)) {
                     sensor_ids.push(devicesModel.model.get(i).sensor_id)
+                    sensor_rooms.push(devicesModel.model.get(i).room)
+                    sensor_states.push(devicesModel.model.get(i).state)
                     idx.push(i)
                 }
             }
@@ -145,12 +178,21 @@ Rectangle {
 
     RoomsModel{
         id: roomModel
+        onIsLoaded: {
+            roomx = new Array()
+            for (var i = 0; i < roomModel.model.count; i++){
+                var room = roomModel.model.get(i).room
+                if (!roomInmodel(room)){
+                    roomx.push(i)
+                }
+            }
+            main.room_count = roomx.length
+            main.room_count_temp = roomx.length
+        }
     }
 
     MainHeader{
         id: mainheader
-        //disptitle: "Devices"
-        //z: mainListView.z
         anchors.top: parent.top
         Component.onCompleted: {console.log("from mainheader ", mainheader.height)}
         drawercolor: '#eee9e9'
@@ -169,7 +211,6 @@ Rectangle {
             interactive: true
             y: deviceheight/10
             //anchors.top: mainheader.bottom
-            Component.onCompleted: {console.log("from gridview ", mainheader.height)}
             id: mainListView
             anchors.fill: parent
             delegate: DevicesDelegate {}
@@ -201,18 +242,6 @@ Rectangle {
                 y: -mainListView.contentY - height - mainheader.height
             }
 
-            //        Component{
-            //            id: headercomponent
-            //            MainHeader{
-            //                disptitle: "Devices"
-            //                z: mainListView.footerItem.z
-            //            }
-            //        }
-            //            Component{
-            //                id: footercomponent
-            //                AddDevice { }
-            //            }
-
             function mainlistview_clear() {
                 var counter = main.counter
                 //console.debug("clear")
@@ -227,6 +256,42 @@ Rectangle {
         }
 
         ListView {
+            id: roomView
+            anchors.fill: parent
+            delegate: RoomsDelegate { }
+            model: ListModel { id: rooms_list }
+            interactive: true
+
+            add: Transition {
+                NumberAnimation { property: "hm"; from: 0; to: 1.0; duration: 300; easing.type: Easing.OutQuad }
+                PropertyAction { property: "appear"; value: 250 }
+            }
+
+            onDragEnded: {
+                if (header2.refresh) {
+                    main.reload()
+                }
+            }
+
+            ListHeader {
+                id: header2
+                y: -roomView.contentY - height - mainheader.height
+            }
+
+            function roomview_clear() {
+                var counter = main.room_count
+                //console.debug("clear")
+                counter--;
+                var id = roomModel.model.get(idx[counter]).id
+                var item = roomModel.model.get(counter)
+                roomview.add( { "sensor_id": item.room,
+                                     "state": item.devices});
+                ids.push(id)
+            }
+
+        }
+
+        ListView {
             id: calendarListView
             anchors.fill: parent
             delegate: ScheduleDelegate { }
@@ -234,19 +299,13 @@ Rectangle {
             interactive: true
 
             onDragEnded: {
-                if (header2.refresh) {
+                if (header3.refresh) {
                     //console.log("in refresh calendar")
                     //clear()
                     //timer.start()
                     main.reload()
                 }
             }
-
-            /*
-            header: MainHeader{
-                id: mainHeader2
-                disptitle: "Schedule"
-            }*/
 
             footer: calendarfoot
             Component {
@@ -255,7 +314,7 @@ Rectangle {
             }
 
             ListHeader {
-                id: header2
+                id: header3
                 y: -calendarListView.contentY - height - mainheader.height
             }
 

@@ -57,6 +57,7 @@ Item {
     width: parent.width
     height: flipBar.height * hm
 
+
     MessageDialog {
         id: messageDialog
         onAccepted: visible = false
@@ -102,7 +103,7 @@ Item {
         front: Rectangle {
             anchors.centerIn: parent
             anchors.fill: parent
-            border.color: "blue"
+            border.color: "#8b8989"
             border.width: 5
 
             MouseArea {
@@ -115,51 +116,27 @@ Item {
             }
 
             Text {
-                id: device
-                text: model.sensor_id
+                id: roomname
+                text: model.room
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.verticalCenter
                 x: 10; y: 9
-                font.pointSize: 18
+                font.pointSize: 20
+                font.family: "Arial"
                 font.bold: true
                 color: "black"
             }
-            Text {
-                id: status
-                text: model.state
-                font.pointSize: 30
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: device.bottom
-                }
-                MouseArea{
-                    id: send_command2
-                    anchors.fill: parent
-                    onClicked: {
-                        if (qsTr(status.text) == qsTr("on")) {
-                                   power_command("off")
-                               }
-                               else{
-                                   power_command("on")
-                               }
-                        container.send()
-                    }
-                }
-            }
         }
 
-        back: Rectangle {
-            id: power_command2
-            anchors.centerIn: parent
-            anchors.fill: parent
-            EnergyGraph {
-                anchors.centerIn: parent
-                anchors.fill: parent
-                Component.onCompleted: {
-                    initEnergyGraph(ip_addr, device.text);
-                    setTime(6);
-                }
-            }
+        back:
+
+        Rectangle {
+            id: devicemodel2
+            height: room.height + room.y + devices.height
+            width: devicewidth
+            border.color: "#8b8989"
+            border.width: 5
+            property var devs: model.devices
 
             MouseArea {
                 anchors.fill: parent
@@ -168,25 +145,32 @@ Item {
                     flipBar.flipped = false
                 }
             }
-        }
-    }
-    function power_command(state) {
-        var req = new XMLHttpRequest;
-        req.open("PUT", ip_addr + "/sensors/" + model.sensor_id, true);
-        req.setRequestHeader("content-type", "application/json");
-        req.setRequestHeader("accept", "application/json");
-        req.responseType = "json"
-        req.onreadystatechange = function() {
-            if (req.readyState === req.DONE) {
-                try {
-                    var object = JSON.parse(req.responseText);
-                } catch (e) {
-                    console.log(e + "Could not reach network");
+            Text {
+                id: room
+                text: model.room
+                anchors.horizontalCenter: parent.horizontalCenter
+                y: 10
+                font.pointSize: 20
+                font.family: "Arial"
+                font.bold: true
+                color: "black"
+                //Component.onCompleted: console.log(day.text)
+            }
+            Column{
+                id: devices
+                spacing: 10
+                anchors.top: day.bottom
+                Repeater{
+                    model: devicemodel2.devs
+                    //Component.onCompleted: console.log(JSON.stringify(day_schedule.sched))
+                    Text{
+                        text: model.name
+                        font.pointSize: 14
+                        font.family: "Arial"
+                        //Component.onCompleted: console.log(text)
+                    }
                 }
             }
         }
-        var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
-        req.send(power_data);
-        main.reload()
     }
 }
