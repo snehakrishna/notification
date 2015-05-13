@@ -188,7 +188,6 @@ Item {
         req.responseType = "json"
         req.onreadystatechange = function() {
             if (req.readyState === req.DONE) {
-                main.reload()
                 console.log("reloading after device on/off")
                 try {
                     var object = JSON.parse(req.responseText);
@@ -204,6 +203,7 @@ Item {
 
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
+        main.reload()
     }
 
     function optimizationCheck(obj) {

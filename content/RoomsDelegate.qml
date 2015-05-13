@@ -100,8 +100,8 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    flipBar.flipDown()
-                    flipBar.flipped = false
+                    //flipBar.flipDown()
+                    flipBar.flipped = !flipBar.flipped
                 }
             }
             Text {

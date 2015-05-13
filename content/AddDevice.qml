@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.3
 
 Column{
     spacing: 5
@@ -47,6 +48,44 @@ Column{
         }
     }
 
+        Row {
+            anchors.horizontalCenter: spacing.horizontalCenter
+            spacing: 5
+            Text{
+                text: "Device Position: "
+                font.pointSize: 16
+                font.family: "Arial"
+            }
+
+            ExclusiveGroup { id: tabPositionGroup }
+            RadioButton {
+                id: top
+                text: "Top"
+                style: RadioButtonStyle {
+                    label: Text{
+                        font.family: "Arial"
+                        font.pointSize: 16
+                        text: control.text
+                    }
+                }
+                checked: true
+                exclusiveGroup: tabPositionGroup
+            }
+            RadioButton {
+                id: bottom
+                text: "Bottom"
+                style: RadioButtonStyle {
+                    label: Text{
+                        font.family: "Arial"
+                        font.pointSize: 16
+                        text: control.text
+                    }
+                }
+                exclusiveGroup: tabPositionGroup
+            }
+        }
+
+
     Rectangle{
         anchors.horizontalCenter: spacing.horizontalCenter
         color: '#68D5ED'
@@ -73,7 +112,15 @@ Column{
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
-        req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50}));
+        if(top.checked == True){
+            //send with top
+            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50}));
+        }
+        else{
+            //send with bottom
+            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50}));
+        }
+
         main.reload()
     }
 }

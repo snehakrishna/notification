@@ -12,7 +12,7 @@ Rectangle {
 
     property int devicewidth: width
     property int deviceheight: height
-    property string ip_addr: "http://10.0.0.21:8080"
+    property string ip_addr: "http://10.1.6.110:8080"
 
     property int inAnimDur: 250
     property int counter: 0
