@@ -114,11 +114,11 @@ Column{
         req.responseType = "json"
         if(top.checked == True){
             //send with top
-            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50}));
+            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50, "location": "TOP"}));
         }
         else{
             //send with bottom
-            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50}));
+            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50, "location": "BOT"}));
         }
 
         main.reload()
