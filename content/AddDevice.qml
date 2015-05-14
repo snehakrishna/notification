@@ -48,6 +48,24 @@ Column{
         }
     }
 
+    Row{
+        anchors.horizontalCenter: spacing.horizontalCenter
+        spacing: 5
+        Text{
+            text: "Sensor Number: "
+            font.pointSize: 16
+            font.family: "Arial"
+        }
+
+        TextField{
+            id: number
+            text: "1"
+            validator: IntValidator{}
+            font.pointSize: 16
+            font.family: "Arial"
+        }
+    }
+
         Row {
             anchors.horizontalCenter: spacing.horizontalCenter
             spacing: 5
@@ -101,24 +119,24 @@ Column{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                add_device(sensor_id.text, room.text)
+                add_device(sensor_id.text, room.text, number.text)
             }
         }
     }
 
-    function add_device(device, room){
+    function add_device(device, room, number){
         var req = new XMLHttpRequest;
         req.open("POST", ip_addr + "/sensors", true);
         req.setRequestHeader("content-type", "application/json");
         req.setRequestHeader("accept", "application/json");
         req.responseType = "json"
-        if(top.checked == True){
+        if(top.checked){
             //send with top
-            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50, "location": "TOP"}));
+            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50, "number": number, "location": "TOP"}));
         }
         else{
             //send with bottom
-            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50, "location": "BOT"}));
+            req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50, "number": number, "location": "BOT"}));
         }
 
         main.reload()

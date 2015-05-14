@@ -180,6 +180,13 @@ Item {
             }
         }
     }
+
+    Timer{
+        id: timer
+        interval: 50
+        onTriggered: main.reload()
+    }
+
     function power_command(state) {
         var req = new XMLHttpRequest;
         req.open("PUT", ip_addr + "/sensors/" + model.sensor_id, true);
@@ -195,6 +202,7 @@ Item {
                         optimizationCheck(object);
                     }
                     console.log("finished");
+
                 } catch (e) {
                     console.log(e + "Could not reach network");
                 }
@@ -203,7 +211,8 @@ Item {
 
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
-        main.reload()
+        timer.start()
+        //main.reload();
     }
 
     function optimizationCheck(obj) {
