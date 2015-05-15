@@ -20,10 +20,13 @@ Item {
         //find unique rooms and number of rooms r
         var rooms_list = new Array()
         for (var i = 0; i < main.sensor_rooms.length; i++){
-            console.log("room: " + main.sensor_rooms[i]);
-            if (main.sensor_rooms[i] in rooms_list)
+            //console.log("room: " + main.sensor_rooms[i]);
+            //console.log(rooms_list)
+            if (rooms_list.indexOf(main.sensor_rooms[i]) > -1)
                 continue;
-            rooms_list.push(main.sensor_rooms[i]);
+            else{
+                rooms_list.push(main.sensor_rooms[i]);
+            }
         }
 
         //create array (rooms_array) with length of r

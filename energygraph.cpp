@@ -34,17 +34,17 @@ void EnergyGraph::initEnergyGraph(QString ipAddr, QString sensorId)
     mCustomPlot->replot();
 }
 
-void EnergyGraph::setTime(int months) {
+void EnergyGraph::setTime(int days) {
     if (!mCustomPlot) {
         qDebug() << "Call initEnergyGraph first";
         return;
     }
-    if (months > 12) {
+    if (days > 12) {
         qDebug() << "Time only goes to a year";
         return;
     }
     int currentTime = QDateTime::currentDateTime().toTime_t();
-    int monthStart = QDateTime::currentDateTime().addMonths(-1*months).toTime_t();
+    int monthStart = QDateTime::currentDateTime().addDays(-1*days).toTime_t();
     mCustomPlot->xAxis->setRange(monthStart, currentTime);
     mCustomPlot->xAxis->setTickStep((currentTime-monthStart)/20);
     mCustomPlot->yAxis->rescale();
@@ -88,7 +88,7 @@ void EnergyGraph::setupEnergyGraph( QCustomPlot* customPlot)
     QVector<double> xl(energyHistories.size() * 2), yl(energyHistories.size() * 2);
 
     //setting for past month - year
-    double lastMonthTime = QDateTime::currentDateTime().addMonths(-1).toTime_t();
+    double lastMonthTime = QDateTime::currentDateTime().addDays(-1).toTime_t();
 
     x[0] = 0;
     x[1] = QDateTime::currentDateTime().toTime_t();
@@ -152,7 +152,7 @@ void EnergyGraph::setupQuadraticDemo( QCustomPlot* customPlot )
     customPlot->yAxis->setLabel( "y" );
     // set axes ranges, so we see all data:
     customPlot->xAxis->setRange( xmin, xmax );
-    customPlot->xAxis->setAutoTickStep(false);
+    customPlot->xAxis->setAutoTickStep(true);
     customPlot->xAxis->setTickStep((xmax - xmin)/20);
     customPlot->yAxis->setRange( -1, 1 );
 //    customPlot ->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );

@@ -25,6 +25,7 @@ Item {
             if (status === XMLHttpRequest.DONE) {
                 try {
                     var objectArray = JSON.parse(req.responseText);
+                    console.log(req.responseText)
                 } catch (e) {
                     console.log("network not available: " + e.message);
                     return;
@@ -35,6 +36,7 @@ Item {
                     for (var key in objectArray) {
                         var jsonObject = objectArray[key];
                         devices.append(jsonObject);
+                        console.log(jsonObject.sensor_id)
                     }
                 }
                 if (wasLoading == true)

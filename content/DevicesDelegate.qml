@@ -54,6 +54,11 @@ Item {
 
     signal send()
 
+    Component.onCompleted: {
+       console.log("delegate", model.sensor_id)
+    }
+
+
     width: parent.width
     height: flipBar.height * hm
 
@@ -166,7 +171,7 @@ Item {
                     anchors.fill: parent
                     Component.onCompleted: {
                         initEnergyGraph(ip_addr, device.text);
-                        setTime(6);
+                        setTime(1);
                     }
                 }
             }
@@ -182,8 +187,9 @@ Item {
     }
 
     Timer{
-        id: timer
+        id: timer4
         interval: 50
+        running: false
         onTriggered: main.reload()
     }
 
@@ -202,7 +208,7 @@ Item {
                         optimizationCheck(object);
                     }
                     console.log("finished");
-
+                    timer4.start()
                 } catch (e) {
                     console.log(e + "Could not reach network");
                 }
@@ -211,7 +217,7 @@ Item {
 
         var power_data = '{ "state" : "' + state + '", "sensor_id":"' + model.sensor_id + '", "kwh":12}';
         req.send(power_data);
-        timer.start()
+        //timer.stop()
         //main.reload();
     }
 

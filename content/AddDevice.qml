@@ -124,6 +124,13 @@ Column{
         }
     }
 
+    Timer{
+        id: timer3
+        interval: 100
+        running: false
+        onTriggered: main.reload()
+    }
+
     function add_device(device, room, number){
         var req = new XMLHttpRequest;
         req.open("POST", ip_addr + "/sensors", true);
@@ -138,8 +145,7 @@ Column{
             //send with bottom
             req.send(JSON.stringify({"sensor_id": device, "room": room, "goal_price": 50, "number": number, "location": "BOT"}));
         }
-
-        main.reload()
+        timer3.start()
     }
 }
 

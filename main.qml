@@ -93,33 +93,26 @@ Rectangle {
 
     Timer {
         id: timer
-        interval: 500; running: main.counter; repeat: true
+        interval: 500; running: main.counter;
         onTriggered: {
-            if (main.counter_temp == 0 && main.sched_count_temp == 0 && main.room_count_temp == 0){
-                timer.stop()
-                return
-            }
-            if (main.counter_temp > 0){
-                main.counter_temp--;
-                var id = devicesModel.model.get(idx[main.counter_temp]).id
-                var item = devicesModel.model.get(main.counter_temp)
+            for (var i = 0; i < main.counter_temp ; i++){
+                var id = devicesModel.model.get(idx[i]).id
+                var item = devicesModel.model.get(i)
                 main.add( { "sensor_id": item.sensor_id,
                              "state": item.state});
                 ids.push(id)
             }
-            if (main.sched_count_temp > 0){
-                main.sched_count_temp--;
-                var day = scheduleModel.model.get(dayx[main.sched_count_temp]).day
-                var sched = scheduleModel.model.get(main.sched_count_temp)
+            for ( i = 0; i < main.sched_count_temp; i++){
+                var day = scheduleModel.model.get(dayx[i]).day
+                var sched = scheduleModel.model.get(i)
                 //console.log("in main 66:")
                 main.sched_add({"day": sched.day,
-                                   "schedule": sched.schedule})
+                                   "schedule": sched.schedule});
                 days.push(day)
             }
-            if (main.room_count_temp > 0){
-                main.room_count_temp--;
-                var room_name = roomModel.model.get(roomx[main.room_count_temp]).room
-                var all_info = roomModel.model.get(main.room_count_temp)
+            for ( i = 0; i < main.room_count_temp ; i++){
+                var room_name = roomModel.model.get(roomx[i]).room
+                var all_info = roomModel.model.get(i)
                 main.room_add({"room": all_info.room, "devices": all_info.devices})
                 rooms.push(room_name)
             }
@@ -129,7 +122,7 @@ Rectangle {
     DevicesModel {
         id: devicesModel
         onIsLoaded: {
-            //console.debug("Reload")
+            //console.debug("Reload", devicesModel.model.count)
             idx = new Array();
             sensor_ids = new Array();
             sensor_rooms = new Array();
@@ -137,24 +130,26 @@ Rectangle {
             for (var i = 0; i < devicesModel.model.count; i++) {
                 var id = devicesModel.model.get(i).id
                 var room = devicesModel.model.get(i).room
-                console.log(room)
                 if (!idInModel(id)) {
                     sensor_ids.push(devicesModel.model.get(i).sensor_id)
                     sensor_rooms.push(devicesModel.model.get(i).room)
                     sensor_states.push(devicesModel.model.get(i).state)
                     idx.push(i)
+                    //console.log(devicesModel.model.get(i).sensor_id)
                 }
             }
-            console.log("sensor_rooms: " + sensor_rooms);
+            //console.log("sensor_rooms: " + sensor_rooms);
             //console.debug(sensor_ids)
             //console.debug(idx.length + " new device")
             main.counter = idx.length
             main.counter_temp = idx.length
 
-            if (main.counter == 0){
-                var newObject = Qt.createQmlObject('import QtQuick 2.0; Text {color: "red"; font.family: "Arial"; font.pointsize: 12; text: "No internet connection"}',
-                                                   parentItem, "dynamicSnippet1");
-            }
+            //console.log("reload", sensor_rooms)
+
+//            if (main.counter == 0){
+//                var newObject = Qt.createQmlObject('import QtQuick 2.0; Text {color: "red"; font.family: "Arial"; font.pointsize: 12; text: "No internet connection"}',
+//                                                   parentItem, "dynamicSnippet1");
+//            }
         }
     }
 
@@ -232,10 +227,8 @@ Rectangle {
 
             onDragEnded: {
                 if (header.refresh) {
-                    //console.log("in refresh devices")
-                    //clear()
-                    //timer.start()
-                    main.reload() }
+                    main.reload()
+                }
             }
 
             ListHeader {
@@ -302,9 +295,6 @@ Rectangle {
 
             onDragEnded: {
                 if (header3.refresh) {
-                    //console.log("in refresh calendar")
-                    //clear()
-                    //timer.start()
                     main.reload()
                 }
             }
@@ -318,6 +308,13 @@ Rectangle {
             ListHeader {
                 id: header3
                 y: -calendarListView.contentY - height - mainheader.height
+            }
+
+            Timer{
+                id: timer2
+                interval: 50
+                running: false
+                onTriggered: main.reload()
             }
 
             function time2int (m, h, am){
@@ -374,7 +371,8 @@ Rectangle {
                 req.responseType = "json"
                 //console.debug("opened xmlHttpRequest")
                 req.send(JSON.stringify(new_sched));
-                main.reload()
+                timer2.start()
+                //main.reload()
             }
 
             function calendarlistview_clear() {
