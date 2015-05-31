@@ -365,7 +365,7 @@ Rectangle {
                 var new_sched = { "sensor_id" : sensor_id_t, "schedules":[ sched_obj]};
                 //console.log(new_sched);
                 var req = new XMLHttpRequest;
-                req.open("PUT", ip_addr + "/sensors/" + model.sensor_id);
+                req.open("PUT", ip_addr + "/sensors/" + sensor_id_t);
                 req.setRequestHeader("content-type", "application/json");
                 req.setRequestHeader("accept", "application/json");
                 req.responseType = "json"

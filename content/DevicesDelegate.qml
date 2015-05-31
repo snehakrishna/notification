@@ -205,10 +205,12 @@ Item {
                 try {
                     var object = JSON.parse(req.responseText);
                     if (state === "on") {
-                        optimizationCheck(object);
+                        //optimizationCheck(object);
                     }
                     console.log("finished");
-                    timer4.start()
+                    timer4.start();
+
+                    //timer4.start()
                 } catch (e) {
                     console.log(e + "Could not reach network");
                 }
@@ -236,6 +238,6 @@ Item {
         }
         messageDialog.title = "Optimizations";
         messageDialog.text = optimizationString;
-        messageDialog.setVisible(true);
+        //messageDialog.setVisible(true);
     }
 }
